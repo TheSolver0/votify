@@ -1168,3 +1168,50 @@ ul {
   color: #35aa91;
   font-size: 48px;
 }
+
+/* =======================================================================
+[26] Custom Style
+========================================================================= */
+
+.red-overlay::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.833);
+    /* Couche rouge semi-transparente */
+    mix-blend-mode: multiply;
+    pointer-events: none;
+}
+
+
+.imglogo {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+}
+
+/* Light mode par défaut */
+:root {
+  --bg-color: #ffffff;
+  --text-color: #333333;
+}
+
+/* Dark mode basé sur les préférences système */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-color: #121212;
+    --text-color: #f1f1f1;
+  }
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s, color 0.3s;
+}

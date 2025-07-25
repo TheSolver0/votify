@@ -1,30 +1,32 @@
 <%- include('./partials/header') %>
 
-<section class="s-space-bottom-full bg-accent-shadow-body" style="margin-top: 100px;">
-            <div class="container">
-                <div class="breadcrumbs-area">
-                    <ul>
-                        <li><a href="#">Accueil</a> -</li>
-                        <li class="active">Mon Compte</li>
-                    </ul>
-                </div>
+    <section class="s-space-bottom-full bg-accent-shadow-body" style="margin-top: 100px;">
+        <div class="container">
+            <div class="breadcrumbs-area">
+                <ul>
+                    <li><a href="#">Accueil</a> -</li>
+                    <li class="active">Mon Compte</li>
+                </ul>
             </div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-3 col-md-4 col-12">
-                        <div class="gradient-wrapper sidebar-item-box">
-                            <ul class="nav tab-nav my-account-title">
-                                <li class="nav-item"><a class="" href="#personal" data-toggle="tab" aria-expanded="false">Informations Personnelles</a></li>
-                                <!-- <li class="nav-item"><a href="#profile" data-toggle="tab" aria-expanded="false">Profil</a></li> -->
-                                <li class="nav-item"><a href="#my-add" data-toggle="tab" aria-expanded="false">Mes Votes</a></li>
-                            </ul>
-                        </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-4 col-12">
+                    <div class="gradient-wrapper sidebar-item-box">
+                        <ul class="nav tab-nav my-account-title">
+                            <li class="nav-item"><a class="" href="#personal" data-toggle="tab"
+                                    aria-expanded="false">Informations Personnelles</a></li>
+                            <!-- <li class="nav-item"><a href="#profile" data-toggle="tab" aria-expanded="false">Profil</a></li> -->
+                            <li class="nav-item"><a href="#my-add" data-toggle="tab" aria-expanded="false">Mes Votes</a>
+                            </li>
+                        </ul>
                     </div>
-                    <div class="col-lg-9 col-md-8 col-12">                        
-                        <div class="tab-content my-account-wrapper gradient-wrapper input-layout1">
-                            <div role="tabpanel" class="gradient-padding tab-pane fade" id="personal">
-                                <h2 class="title-section">Informations Personnelles</h2>
-                                <form id="formupdate">
+                </div>
+                <div class="col-lg-9 col-md-8 col-12">
+                    <div class="tab-content my-account-wrapper gradient-wrapper input-layout1">
+                        <div role="tabpanel" class="gradient-padding tab-pane fade" id="personal">
+                            <h2 class="title-section">Informations Personnelles</h2>
+                            <form id="formupdate">
 
 
                                 <div class="row">
@@ -101,90 +103,160 @@
                                     </div>
                                 </div>
                             </form>
+                        </div>
+
+                        <div role="tabpanel" class="tab-pane fade active show" id="my-add">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="gradient-wrapper item-mb border-none">
+                                        <div class="gradient-title">
+                                            <div class="row no-gutters">
+                                                <div class="col-4 text-center-mb">
+                                                    <h2 class="mb10--mb">Liste de mes votes</h2>
+                                                </div>
+                                                <div class="col-8">
+                                                    <div class="layout-switcher float-none-mb text-center-mb mb10--mb">
+                                                        <ul>
+                                                            <li>
+                                                                <div class="page-controls-sorting">
+                                                                    <div class="dropdown">
+                                                                        <button class="btn sorting-btn dropdown-toggle"
+                                                                            type="button" data-toggle="dropdown">Trier
+                                                                            par<i class="fa fa-sort"
+                                                                                aria-hidden="true"></i></button>
+                                                                        <ul class="dropdown-menu">
+                                                                            <li><a href="#">Date</a></li>
+                                                                            <li><a href="#">Meilleure Votes</a></li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                            <!-- <li class="active"><a href="#" data-type="category-list-layout3" class="product-view-trigger"><i class="fa fa-th-large"></i></a></li> -->
+                                                            <!-- <li class="active"><a href="#" data-type="category-grid-layout3" class="product-view-trigger"><i class="fa fa-list"></i></a></li> -->
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="category-view"
+                                            class="category-grid-layout3 gradient-padding zoom-gallery">
+                                            <div class="row">
+                                                <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                                                    <div class="product-box item-mb zoom-gallery">
+                                                        <div class="item-mask-wrapper">
+                                                            <div class="item-mask secondary-bg-box"><img
+                                                                    src="../public/img/product/Affiche concours miss.jpeg"
+                                                                    alt="categories" class="img-fluid">
+                                                                <div class="trending-sign active" data-tips="Featured">
+                                                                    <i class="fa fa-bolt" aria-hidden="true"></i> </div>
+                                                                <div class="title-ctg">Concours Miss</div>
+                                                                <ul class="info-link">
+                                                                    <li><a href="../public/img/product/Affiche concours miss.jpeg"
+                                                                            class="elv-zoom"
+                                                                            data-fancybox-group="gallery"
+                                                                            title="Title Here"><i
+                                                                                class="fa fa-arrows-alt"
+                                                                                aria-hidden="true"></i></a></li>
+                                                                    <li><a href="single-product-layout1.html"><i
+                                                                                class="fa fa-link"
+                                                                                aria-hidden="true"></i></a></li>
+                                                                </ul>
+                                                                <div class="symbol-featured"><img
+                                                                        src="../public/img/banner/Affiche concours miss.jpeg"
+                                                                        alt="symbol" class="img-fluid"> </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="item-content">
+                                                            <div class="title-ctg">Concours Miss</div>
+                                                            <h3 class="short-title"><a
+                                                                    href="https://www.radiustheme.com/demo/html/classipost/classipost/single-product1.html">Miss
+                                                                    Cameroun</a></h3>
+                                                            <h3 class="long-title"><a
+                                                                    href="https://www.radiustheme.com/demo/html/classipost/classipost/single-product1.html">Miss
+                                                                    Cameroun</a></h3>
+                                                            <ul class="upload-info">
+                                                                <li class="date"><i class="fa fa-clock-o"
+                                                                        aria-hidden="true"></i>07 Mar, 2017</li>
+                                                                <li class="place"><i class="fa fa-map-marker"
+                                                                        aria-hidden="true"></i>Douala, Cameroun</li>
+                                                                <li class="tag-ctg"><i class="fa fa-tag"
+                                                                        aria-hidden="true"></i>Concours Miss</li>
+                                                            </ul>
+                                                            <p>Concours valorisant les plus belles filles du pays</p>
+                                                            <!-- <div class="price">Brillance</div> -->
+                                                            <a href="single-product-layout1.html"
+                                                                class="product-details-btn">Détails</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="gradient-wrapper mb--xs mb-30 border-none">
+                                        <ul class="cp-pagination">
+                                            <li class="disabled"><a href="#"><i class="fa fa-angle-double-left"
+                                                        aria-hidden="true"></i>Previous</a></li>
+                                            <li class="active"><a href="#">1</a></li>
+                                            <li><a href="#">2</a></li>
+                                            <li><a href="#">3</a></li>
+                                            <li><a href="#">4</a></li>
+                                            <li><a href="#">5</a></li>
+                                            <li><a href="#">6</a></li>
+                                            <li><a href="#">Next<i class="fa fa-angle-double-right"
+                                                        aria-hidden="true"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
-                             
-                            <div role="tabpanel" class="tab-pane fade active show" id="my-add">
-                               <div class="row">
-                                   <div class="col-lg-12">
-                                       <div class="gradient-wrapper item-mb border-none">
-                                           <div class="gradient-title">
-                                               <div class="row no-gutters">
-                                                   <div class="col-4 text-center-mb">
-                                                       <h2 class="mb10--mb">Liste de mes votes</h2>
-                                                   </div>
-                                                   <div class="col-8">
-                                                       <div class="layout-switcher float-none-mb text-center-mb mb10--mb">
-                                                           <ul>
-                                                               <li>
-                                                                   <div class="page-controls-sorting">
-                                                                       <div class="dropdown">
-                                                                           <button class="btn sorting-btn dropdown-toggle" type="button" data-toggle="dropdown">Trier par<i class="fa fa-sort" aria-hidden="true"></i></button>
-                                                                           <ul class="dropdown-menu">
-                                                                               <li><a href="#">Date</a></li>
-                                                                               <li><a href="#">Meilleure Votes</a></li>
-                                                                           </ul>
-                                                                       </div>
-                                                                   </div>
-                                                               </li>
-                                                               <!-- <li class="active"><a href="#" data-type="category-list-layout3" class="product-view-trigger"><i class="fa fa-th-large"></i></a></li> -->
-                                                               <!-- <li class="active"><a href="#" data-type="category-grid-layout3" class="product-view-trigger"><i class="fa fa-list"></i></a></li> -->
-                                                           </ul>
-                                                       </div>
-                                                   </div>
-                                               </div>
-                                           </div>
-                                           <div id="category-view" class="category-grid-layout3 gradient-padding zoom-gallery">
-                                               <div class="row">
-                                                   <div class="col-lg-4 col-md-4 col-sm-6 col-12">
-                                                       <div class="product-box item-mb zoom-gallery">
-                                                           <div class="item-mask-wrapper">
-                                                               <div class="item-mask secondary-bg-box"><img src="../public/img/product/Affiche concours miss.jpeg" alt="categories" class="img-fluid">
-                                                                   <div class="trending-sign active" data-tips="Featured"> <i class="fa fa-bolt" aria-hidden="true"></i> </div>
-                                                                   <div class="title-ctg">Concours Miss</div>
-                                                                   <ul class="info-link">
-                                                                       <li><a href="../public/img/product/Affiche concours miss.jpeg" class="elv-zoom" data-fancybox-group="gallery" title="Title Here"><i class="fa fa-arrows-alt" aria-hidden="true"></i></a></li>
-                                                                       <li><a href="single-product-layout1.html"><i class="fa fa-link" aria-hidden="true"></i></a></li>
-                                                                   </ul>
-                                                                   <div class="symbol-featured"><img src="../public/img/banner/Affiche concours miss.jpeg" alt="symbol" class="img-fluid"> </div>
-                                                               </div>
-                                                           </div>
-                                                           <div class="item-content">
-                                                               <div class="title-ctg">Concours Miss</div>
-                                                               <h3 class="short-title"><a href="https://www.radiustheme.com/demo/html/classipost/classipost/single-product1.html">Miss Cameroun</a></h3>
-                                                               <h3 class="long-title"><a href="https://www.radiustheme.com/demo/html/classipost/classipost/single-product1.html">Miss Cameroun</a></h3>
-                                                               <ul class="upload-info">
-                                                                   <li class="date"><i class="fa fa-clock-o" aria-hidden="true"></i>07 Mar, 2017</li>
-                                                                   <li class="place"><i class="fa fa-map-marker" aria-hidden="true"></i>Douala, Cameroun</li>
-                                                                   <li class="tag-ctg"><i class="fa fa-tag" aria-hidden="true"></i>Concours Miss</li>
-                                                               </ul>
-                                                               <p>Concours valorisant les plus belles filles du pays</p>
-                                                               <!-- <div class="price">Brillance</div> -->
-                                                               <a href="single-product-layout1.html" class="product-details-btn">Détails</a>
-                                                           </div>
-                                                       </div>
-                                                   </div>
-                                                   
-                                               </div>
-                                           </div>
-                                       </div>
-                                       <div class="gradient-wrapper mb--xs mb-30 border-none">
-                                           <ul class="cp-pagination">
-                                               <li class="disabled"><a href="#"><i class="fa fa-angle-double-left" aria-hidden="true"></i>Previous</a></li>
-                                               <li class="active"><a href="#">1</a></li>
-                                               <li><a href="#">2</a></li>
-                                               <li><a href="#">3</a></li>
-                                               <li><a href="#">4</a></li>
-                                               <li><a href="#">5</a></li>
-                                               <li><a href="#">6</a></li>
-                                               <li><a href="#">Next<i class="fa fa-angle-double-right" aria-hidden="true"></i></a></li>
-                                           </ul>
-                                       </div>
-                                   </div>
-                               </div>
-                            </div>                     
-                        </div>                       
-                    </div>                    
+                        </div>
+                    </div>
                 </div>
             </div>
-        </section>
-<%- include('./partials/footer') %>
+        </div>
+    </section>
+
+
+    <%- include('./partials/footer') %>
+
+        <script>
+            $(document).ready(() => {
+                var notyf = new Notyf();
+                // Initialisation de Notyf
+                $("#formVote").submit(function (event) {
+                    event.preventDefault();
+
+
+                    // Récupérer les données du formulaire
+                    var formData = new FormData(this);
+                    console.log(formData)
+                    // Envoyer les données via AJAX
+                    $.ajax({
+                        type: "POST", // ou GET selon votre configuration
+                        url: "/vote/add", // l'url de soumission
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function (response) {
+                            notyf.success(response.message);
+
+                            setTimeout(function () {
+                                window.location.href = '/#'; // Redirection après 1 seconde
+                            }, 1000);
+                        },
+                        error: function () {
+                            notyf.error('Erreur lors de l\'ajout du vote');
+
+                        }
+                    });
+
+                });
+               
+            });
+        </script>
+
+        </body>
+
+
+
+        </html>

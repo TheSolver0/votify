@@ -12,6 +12,10 @@ const VoteSchema = mongoose.Schema({
         required: true,
         unique: false
     },
+    image: {
+        type: String,
+        required: false,
+    },
     vote: { type: mongoose.Schema.Types.ObjectId, ref: 'Vote', required: true }, // Référence à l'utilisateur
 
 
@@ -19,4 +23,4 @@ const VoteSchema = mongoose.Schema({
 
 
 
-module.exports = mongoose.model('Vote', VoteSchema);
+module.exports = mongoose.model('Candidat', VoteSchema);

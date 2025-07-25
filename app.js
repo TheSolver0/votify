@@ -17,9 +17,11 @@ const mongoose = require('mongoose');
 
 const authController = require('./controllers/authController');
 const userController = require('./controllers/userController');
+const voteController = require('./controllers/voteController');
+const candidatController = require('./controllers/candidatController');
 const config = require('./config');
 
-const SECRET = 'Akqdosfkdkxlfd7f1d51f85dd1515205ssJNIKq51515602scnbhbfsjkdln';
+const SECRET = 'Akqdosfkdkxlfd7f1d51f85dd1515205ssJNIKq51sfjnkdnvskjdfnkln';
 const AUTH = ejwt({secret: SECRET, algorithms: ["HS256"]});
 
 
@@ -31,9 +33,10 @@ db.once('open', () => {
     console.log('connected to the DB :)');
 });
 
-const avatarStorage = multer.diskStorage({
+
+ const voteStorage = multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, 'public/uploads/avatars/'); // Dossier où les avatars seront stockés
+      cb(null, 'public/uploads/images-votes/'); // Dossier où les avatars seront stockés
     },
     filename: function (req, file, cb) {
         const ext = path.extname(file.originalname).toLowerCase(); // Extension du fichier
@@ -41,8 +44,33 @@ const avatarStorage = multer.diskStorage({
         cb(null, file.fieldname + '-' + uniqueSuffix + ext);
       }
   });
-const avatarUpload =  multer({
-    storage: avatarStorage,
+const voteUpload =  multer({
+    storage: voteStorage,
+    fileFilter: function (req, file, cb) {
+      const filetypes = /jpeg|jpg|png/;
+      const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+      const mimetype = filetypes.test(file.mimetype);
+  
+      if (mimetype && extname) {
+        return cb(null, true);
+      } else {
+        cb(new Error('Seules les images JPEG, JPG et PNG sont autorisées.'));
+      }
+    }
+  });
+
+ const candidatStorage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, 'public/uploads/images-candidats/'); // Dossier où les avatars seront stockés
+    },
+    filename: function (req, file, cb) {
+        const ext = path.extname(file.originalname).toLowerCase(); // Extension du fichier
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9); // Suffixe unique pour éviter les collisions
+        cb(null, file.fieldname + '-' + uniqueSuffix + ext);
+      }
+  });
+const candidatUpload =  multer({
+    storage: candidatStorage,
     fileFilter: function (req, file, cb) {
       const filetypes = /jpeg|jpg|png/;
       const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
@@ -87,6 +115,42 @@ app.get('/', (req, res) => {
   res.render('index', { title: 'Home' })
 })
 
+
+app.get('/votes', voteController.getVotes);
+
+app.post('/vote/add',voteUpload.single('image'), voteController.postVote);
+
+// app.get('/vote/search/:term', movieController.getMovieSearch);
+
+// app.get('/movies/search', movieController.getMovieSearch);
+
+app.get('/vote/add', authenticateToken, voteController.getVoteAdd);
+
+app.get('/vote-details/:id', voteController.getVoteDetails);
+
+app.put('/vote/:id', authenticateToken, upload.fields([]), voteController.updateVote);
+
+app.delete('/vote/:id', voteController.deleteVote);
+//----------------------------------------------------
+
+app.get('/candidats', candidatController.getCandidats);
+
+app.post('/candidat/add',candidatUpload.single('image'), candidatController.postCandidat);
+
+// app.get('/vote/search/:term', movieController.getMovieSearch);
+
+// app.get('/movies/search', movieController.getMovieSearch);
+
+app.get('/candidat/add', authenticateToken, candidatController.getCandidatAdd);
+
+app.get('/candidat-details/:id', candidatController.getCandidatDetails);
+
+app.put('/candidat/:id', authenticateToken, upload.fields([]), candidatController.updateCandidat);
+
+app.delete('/candidat/:id', candidatController.deleteCandidat);
+
+//---------------------------------------------------------
+
 app.get('/login', authController.login);
 
 
@@ -111,8 +175,8 @@ app.post('/logout', (req, res) => {
     res.status(200).json({ message: 'Déconnexion réussie' });
 });
 
-app.get('/dashboard', userController.getProfil);
-// app.get('/dashboard', authenticateToken, userController.getProfil);
+// app.get('/dashboard', userController.getProfil);
+app.get('/dashboard', authenticateToken, userController.getProfil);
 
 
 app.listen(PORT, () => {

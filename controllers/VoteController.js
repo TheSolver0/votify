@@ -77,13 +77,15 @@ exports.postVote = (req, res) => {
                     console.log(err);
                 });
 
-           
+            return res.status(201).json({ message: "Vote ajouté avec succès !" });
+
         })
         .catch(err => {
             console.log("Erreur : ", err);
-          });
 
-    return res.status(201).json({ message: "Film ajouté avec succès !" });
+        });
+    return res.status(500).json({ message: "Erreur lors de l'ajout du vote" });
+
 };
 
 exports.updateVote = (req, res) => {
@@ -94,7 +96,7 @@ exports.updateVote = (req, res) => {
     else {
         console.log(`voteTitle : ${req.body.title}  `);
         const id = req.params.id;
-        Vote.findByIdAndUpdate(id, { $set: { title: req.body.title} }, { new: true })
+        Vote.findByIdAndUpdate(id, { $set: { title: req.body.title } }, { new: true })
             .then(vote => {
                 console.log(vote);
                 // res.json(vote);
@@ -104,7 +106,7 @@ exports.updateVote = (req, res) => {
                 console.log(err);
                 res.send('Erreur de mise à jour ');
             });
-            return res.status(201).json({ message: "suppression successfully" });
+        return res.status(201).json({ message: "suppression successfully" });
     }
 };
 exports.deleteVote = (req, res) => {
@@ -118,7 +120,7 @@ exports.deleteVote = (req, res) => {
             .then(console.log("suppression successfully"))
             .catch(err => console.log(err));
         return res.status(201).json({ message: "suppression successfully" });
-        
+
     }
 };
 

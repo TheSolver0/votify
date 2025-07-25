@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
-const SECRET = 'Akqdosfkdkxlfd7f1d51f85dd1515205ssJNIKq51515602scnbhbfsjkdln';
+const SECRET = 'Akqdosfkdkxlfd7f1d51f85dd1515205ssJNIKq51sfjnkdnvskjdfnkln';
 
 const fakeUser = {email: 'test@test.com', password: 'test123'};
 

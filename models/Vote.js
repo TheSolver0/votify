@@ -7,7 +7,16 @@ const VoteSchema = mongoose.Schema({
         required: true,
         unique: false
     },
-    candidats: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Candidat' }], // Référence aux posts
+    description: {
+        type: String,
+        required: true,
+        unique: false
+    },
+    image: {
+        type: String,
+        required: false,
+    },
+    candidats: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Candidat' }], // Référence aux candidats
     author: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }, // Référence à l'utilisateur
 
 },{timestamps: true});

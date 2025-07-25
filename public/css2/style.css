@@ -6269,3 +6269,31 @@ ul.sidebar-ads-from-user li .price {
     padding: 12px 5px;
   }
 }
+
+/* Light mode par défaut */
+:root {
+  --bg-color: #ffffff;
+  --text-color: #333333;
+}
+
+/* Dark mode basé sur les préférences système */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-color: #121212;
+    --text-color: #f1f1f1;
+  }
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.imglogo {
+    position: absolute;
+    /* top: 20px; */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+}
