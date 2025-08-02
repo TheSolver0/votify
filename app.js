@@ -86,6 +86,7 @@ const candidatUpload =  multer({
 
 const authenticateToken = (req, res, next) => {
     const token = req.headers.cookie.split('token=')[1];
+    console.log(token);
 
     if (!token) {
         return res.render('login'); // Non authentifié
@@ -98,6 +99,7 @@ const authenticateToken = (req, res, next) => {
 
         req.user = user; // Ajouter les informations de l'utilisateur à la requête
         res.locals.user = user.user;
+        console.log(req.user);
         // console.log(req.user.user);
         next();
     });
@@ -105,6 +107,7 @@ const authenticateToken = (req, res, next) => {
 
 
 app.use('/public', express.static('public'))
+// app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 
 
 app.set('views', './views')
@@ -112,13 +115,13 @@ app.set('view engine', 'ejs')
 
 
 app.get('/', (req, res) => {
-  res.render('index', { title: 'Home' })
+  res.render('index', { title: 'Home', votes: [], candidats: [] }, );
 })
 
 
 app.get('/votes', voteController.getVotes);
 
-app.post('/vote/add',voteUpload.single('image'), voteController.postVote);
+app.post('/vote/add',voteUpload.single('image'),authenticateToken, voteController.postVote);
 
 // app.get('/vote/search/:term', movieController.getMovieSearch);
 
@@ -163,7 +166,7 @@ app.get('/users', userController.getUsers);
 app.get('/users/register', userController.getUserRegister);
 
 // app.post('/users/register', avatarUpload.single('avatar'), userController.postUser);
-app.post('/users/register', avatarUpload.single('avatar'), userController.postUser);
+app.post('/users/register', userController.postUser);
 
 app.post('/logout', (req, res) => {
     res.clearCookie('token', {
@@ -176,7 +179,7 @@ app.post('/logout', (req, res) => {
 });
 
 // app.get('/dashboard', userController.getProfil);
-app.get('/dashboard', authenticateToken, userController.getProfil);
+app.get('/dashboard', authenticateToken, userController.getVotes);
 
 
 app.listen(PORT, () => {

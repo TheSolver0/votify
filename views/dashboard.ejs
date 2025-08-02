@@ -36,7 +36,7 @@
                                     <div class="col-sm-9 col-12">
                                         <div class="form-group">
                                             <input type="text" id="last-name" class="form-control" name="name"
-                                                placeholder="Nom">
+                                                placeholder="Nom" value="<%= user.name %>">
                                         </div>
                                     </div>
                                 </div>
@@ -49,7 +49,7 @@
                                     <div class="col-sm-9 col-12">
                                         <div class="form-group">
                                             <input type="text" id="last-name" class="form-control" name="organisation"
-                                                placeholder="Nom de l'organisation">
+                                                placeholder="Nom de l'organisation" value="<%= user.organisation %>">
                                         </div>
                                     </div>
                                 </div>
@@ -61,7 +61,7 @@
                                     <div class="col-sm-9 col-12">
                                         <div class="form-group">
                                             <input type="text" id="phone" class="form-control" name="tel"
-                                                placeholder="Votre numéro de téléphone">
+                                                placeholder="Votre numéro de téléphone" value="<%= user.tel %>">
                                             <div class="checkbox checkbox-primary checkbox-circle">
                                                 <input id="checkbox1" type="checkbox" checked="">
                                                 <label for="checkbox1">Masquer le numéro de téléphone sur les
@@ -78,7 +78,7 @@
                                     <div class="col-sm-9 col-12">
                                         <div class="form-group">
                                             <input type="text" id="first-name2" class="form-control" name="email"
-                                                placeholder="Entrez votre e-mail ici . . .">
+                                                placeholder="Entrez votre e-mail ici . . ." value="<%= user.email %>">
                                         </div>
                                     </div>
                                 </div>
@@ -90,14 +90,14 @@
                                     <div class="col-sm-9 col-12">
                                         <div class="form-group">
                                             <input type="text" id="password" class="form-control" name="password"
-                                                placeholder="Tapez votre mot de passe">
+                                                placeholder="Tapez votre mot de passe" value="password">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="ml-auto col-sm-9 col-12 ml-none--mb">
                                         <div class="form-group">
-                                            <button type="submit" class="cp-default-btn-sm">S'inscrire
+                                            <button type="submit" class="cp-default-btn-sm">Mettre à jour
                                                 maintenant!</button>
                                         </div>
                                     </div>
@@ -141,17 +141,18 @@
                                         <div id="category-view"
                                             class="category-grid-layout3 gradient-padding zoom-gallery">
                                             <div class="row">
-                                                <div class="col-lg-4 col-md-4 col-sm-6 col-12">
-                                                    <div class="product-box item-mb zoom-gallery">
-                                                        <div class="item-mask-wrapper">
+                                                <% votes.forEach(vote => { %>
+                                                    <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                                                        <div class="product-box item-mb zoom-gallery">
+                                                            <div class="item-mask-wrapper">
                                                             <div class="item-mask secondary-bg-box"><img
-                                                                    src="../public/img/product/Affiche concours miss.jpeg"
+                                                                    src="public/uploads/images-votes/<%= vote.image %>"
                                                                     alt="categories" class="img-fluid">
                                                                 <div class="trending-sign active" data-tips="Featured">
                                                                     <i class="fa fa-bolt" aria-hidden="true"></i> </div>
-                                                                <div class="title-ctg">Concours Miss</div>
+                                                                <div class="title-ctg"><%= vote.title %></div>
                                                                 <ul class="info-link">
-                                                                    <li><a href="../public/img/product/Affiche concours miss.jpeg"
+                                                                    <li><a href="public/uploads/images-votes/<%= vote.image %>"
                                                                             class="elv-zoom"
                                                                             data-fancybox-group="gallery"
                                                                             title="Title Here"><i
@@ -162,33 +163,32 @@
                                                                                 aria-hidden="true"></i></a></li>
                                                                 </ul>
                                                                 <div class="symbol-featured"><img
-                                                                        src="../public/img/banner/Affiche concours miss.jpeg"
+                                                                        src="uploads/images-votes/<%= vote.image %>"
                                                                         alt="symbol" class="img-fluid"> </div>
                                                             </div>
                                                         </div>
                                                         <div class="item-content">
-                                                            <div class="title-ctg">Concours Miss</div>
+                                                            <div class="title-ctg"><%= vote.title %></div>
                                                             <h3 class="short-title"><a
-                                                                    href="https://www.radiustheme.com/demo/html/classipost/classipost/single-product1.html">Miss
-                                                                    Cameroun</a></h3>
+                                                                    href="votedetails"><%= vote.title %></a></h3>
                                                             <h3 class="long-title"><a
-                                                                    href="https://www.radiustheme.com/demo/html/classipost/classipost/single-product1.html">Miss
-                                                                    Cameroun</a></h3>
+                                                                    href="votedetails"><%= vote.title %></a></h3>
                                                             <ul class="upload-info">
                                                                 <li class="date"><i class="fa fa-clock-o"
-                                                                        aria-hidden="true"></i>07 Mar, 2017</li>
+                                                                        aria-hidden="true"></i></li>
                                                                 <li class="place"><i class="fa fa-map-marker"
                                                                         aria-hidden="true"></i>Douala, Cameroun</li>
                                                                 <li class="tag-ctg"><i class="fa fa-tag"
                                                                         aria-hidden="true"></i>Concours Miss</li>
                                                             </ul>
-                                                            <p>Concours valorisant les plus belles filles du pays</p>
+                                                            <p><%= vote.description %></p>
                                                             <!-- <div class="price">Brillance</div> -->
                                                             <a href="single-product-layout1.html"
                                                                 class="product-details-btn">Détails</a>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div> <%}
+                                                ) %>
 
                                             </div>
                                         </div>
@@ -241,7 +241,7 @@
                             notyf.success(response.message);
 
                             setTimeout(function () {
-                                window.location.href = '/#'; // Redirection après 1 seconde
+                                window.location.href = '#'; // Redirection après 1 seconde
                             }, 1000);
                         },
                         error: function () {

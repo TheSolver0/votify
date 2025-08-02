@@ -32,7 +32,7 @@ const userSchema = mongoose.Schema({
         type: String,
         required: false,
     },
-    // movies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Movie' }], // Référence aux posts
+    votes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Vote' }], // Référence aux votes
 
 
 },{timestamps: true});

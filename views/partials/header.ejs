@@ -92,25 +92,31 @@
                                     <nav>
                                         <ul>
                                             <li>
-                                                <a href="#">Accueil</a>
+                                                <a href="/">Accueil</a>
                                             </li>
 
                                             <li>
                                                 <a href="#">FAQ</a>
                                             </li>
 
-                                            <li><a href="classipost/contact.html">Contact</a></li>
+                                            <li><a href="/">Contact</a></li>
 
-                                            <li>
-                                                <a href="/login">Connexion</a>
+                                                <% if(typeof user !== 'undefined' && user) { %>
+                                            <li onclick="logout();">
+                                                    <a > Déconnexion</a>
                                             </li>
+                                                <% } else { %>
+                                            <li>
+                                                    <a href="/login"> Connexion</a>
+                                            </li>
+                                                <% } %>
                                             <!-- <a href="#" class="buy-btn">Connexion</a> -->
                                         </ul>
                                     </nav>
                                 </div>
                             </div>
                             <div class="col-lg-2 col-md-2 col-sm-3 text-right" data-target="#modalVote" data-toggle="modal">
-                                <a href="#" class="cp-default-btn">Lancer un vote</a>
+                                <a href="#" class="cp-default-btn" style="padding: 7px !important;">Lancer un vote</a>
                             </div>
                         </div>
                     </div>
@@ -190,6 +196,9 @@
                                 <label>Description *</label>
                                 <input type="text" name="description" id="description" />
                                 <input type="file" placeholder="image" name="image" id="image" accept=".jpg, .jpeg, .png, .gif">
+                                                <% if(typeof user !== 'undefined' && user) { %>
+                                <input type="hidden" name="user_id" id="user_id" value="<%= user._id %>">
+                                                <% } %>
                                 
                                 
                                 <button class="default-big-btn" type="submit" value="Login">Enregistrer</button>
@@ -200,3 +209,20 @@
                 </div>
             </div>
         </div>
+        <script>
+            function logout(arguments) {
+            fetch('/logout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    localStorage.removeItem('token')
+                    // Optionnel : redirection après la déconnexion
+                    window.location.href = '/login'; // Redirige vers la page de connexion
+                })
+                .catch(error => console.error('Erreur:', error));
+        }
+        </script>

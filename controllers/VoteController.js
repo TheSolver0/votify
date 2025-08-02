@@ -9,8 +9,8 @@ exports.getVotes = (req, res) => {
         .populate('author')
         .sort({ _id: -1 })
         .then(votes => {
-            frenchVotes = votes;
-            res.render('votes', { frenchVotes });
+            
+        //    return res.render('votes', { votes });
         })
         .catch(err => {
             console.error(err);
@@ -49,44 +49,43 @@ exports.getVoteSearch = (req, res) => {
 };
 
 exports.postVote = (req, res) => {
-    if (!req.body)
+    if (!req.body) {
         return res.sendStatus(500);
+    }
 
     const formData = req.body;
     console.log('formData: ', formData);
-    // console.log(req.body.user_id);
 
     User.findById(req.body.user_id)
         .then(user => {
             if (!user) {
-                return console.log('Utilisateur non trouvé');
+                return res.status(404).json({ message: "Utilisateur non trouvé" });
             }
-            // console.log('user :', user._id);
+
             const image = req.file ? req.file.filename : undefined;
+            const { title, description } = req.body;
 
-            const title = req.body.movietitle;
-            const year = req.body.movieyear;
-            const myVote = new Vote({ movietitle: title, movieyear: year, author: user._id, image });
-            myVote.save()
+            const myVote = new Vote({
+                title,
+                description,
+                author: user._id,
+                image
+            });
+
+            return myVote.save()
                 .then(savedVote => {
-                    console.log(savedVote);
                     user.votes.push(savedVote._id);
-                    user.save();
-                })
-                .catch(err => {
-                    console.log(err);
+                    return user.save().then(() => {
+                        return res.status(201).json({ message: "Vote ajouté avec succès !" });
+                    });
                 });
-
-            return res.status(201).json({ message: "Vote ajouté avec succès !" });
-
         })
         .catch(err => {
-            console.log("Erreur : ", err);
-
+            console.error("Erreur :", err);
+            return res.status(500).json({ message: "Erreur lors de l'ajout du vote" });
         });
-    return res.status(500).json({ message: "Erreur lors de l'ajout du vote" });
-
 };
+
 
 exports.updateVote = (req, res) => {
     if (!req.body) {

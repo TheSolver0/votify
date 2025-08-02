@@ -62,3 +62,15 @@ exports.postUser = async (req, res) => {
         return res.status(500).json({ message: "Erreur de serveur lors de la création de l'utilisateur." });
     }
 };
+exports.getVotes = async (req, res) => {
+    try {
+        const user = await User.findById(req.user.user._id).populate('votes');
+        if (!user) {
+            return res.status(404).json({ message: "Utilisateur non trouvé" });
+        }
+        res.render('dashboard', { user: user, votes: user.votes });
+    } catch (err) {
+        console.error("Erreur lors de la récupération des votes :", err);
+        res.status(500).json({ message: "Erreur de serveur" });
+    }
+};
