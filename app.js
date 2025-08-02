@@ -17,7 +17,7 @@ const mongoose = require('mongoose');
 
 const authController = require('./controllers/authController');
 const userController = require('./controllers/userController');
-const voteController = require('./controllers/voteController');
+const voteController = require('./controllers/VoteController');
 const candidatController = require('./controllers/candidatController');
 const config = require('./config');
 
