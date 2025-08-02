@@ -18,7 +18,7 @@ const mongoose = require('mongoose');
 const authController = require('./controllers/authController');
 const userController = require('./controllers/userController');
 const voteController = require('./controllers/VoteController');
-const candidatController = require('./controllers/candidatController');
+const candidatController = require('./controllers/CandidatController');
 const config = require('./config');
 
 const SECRET = 'Akqdosfkdkxlfd7f1d51f85dd1515205ssJNIKq51sfjnkdnvskjdfnkln';
