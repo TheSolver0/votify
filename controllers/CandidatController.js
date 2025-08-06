@@ -6,7 +6,7 @@ exports.getCandidats = (req, res) => {
     // var payload = parseJwt();
 
     Candidat.find({})
-        .populate('author')
+        // .populate('author')
         .sort({ _id: -1 })
         .then(candidats => {
             res.render('candidats', { candidats });
@@ -20,6 +20,8 @@ exports.getCandidats = (req, res) => {
 exports.getCandidatDetails = (req, res) => {
     const id = req.params.id;
     Candidat.findById(id)
+        .populate('vote')
+        .populate('vote.author')
         .then(candidat => {
             res.render('candidat-details', { candidat: candidat });
         })
@@ -47,44 +49,31 @@ exports.getCandidatSearch = (req, res) => {
         })
 };
 
-exports.postCandidat = (req, res) => {
-    if (!req.body)
-        return res.sendStatus(500);
+exports.postCandidat = async (req, res) => {
+  if (!req.body) return res.sendStatus(400); // 400 pour bad request
 
-    const formData = req.body;
-    console.log('formData: ', formData);
-    // console.log(req.body.user_id);
+  try {
+    const { vote_id, name, description } = req.body;
+    const image = req.file ? req.file.filename : undefined;
 
-    Vote.findById(req.body.vote_id)
-        .then(vote => {
-            if (!vote) {
-                return console.log('Vote non trouvé');
-            }
-            // console.log('user :', user._id);
-            const image = req.file ? req.file.filename : undefined;
+    const vote = await Vote.findById(vote_id);
+    if (!vote) {
+      console.log('Vote non trouvé');
+      return res.status(404).json({ message: "Vote non trouvé." });
+    }
 
-            const name = req.body.name;
-            const description = req.body.description;
-            const myCandidat = new Candidat({ name: name, description: description, vote: vote._id, image });
-            myCandidat.save()
-                .then(savedCandidat => {
-                    console.log(savedCandidat);
-                    vote.candidats.push(savedCandidat._id);
-                    vote.save();
-                })
-                .catch(err => {
-                    console.log(err);
-                });
+    const candidat = new Candidat({ name, description, vote: vote._id, image });
+    const savedCandidat = await candidat.save();
 
-           
-        })
-        .catch(err => {
-            console.log("Erreur : ", err);
-          });
+    vote.candidats.push(savedCandidat._id);
+    await vote.save();
 
-    return res.status(201).json({ message: "Film ajouté avec succès !" });
+    res.status(201).json({ message: "Candidat ajouté avec succès !" });
+  } catch (err) {
+    console.error("Erreur : ", err);
+    res.status(500).json({ message: "Erreur serveur lors de l'ajout du candidat." });
+  }
 };
-
 exports.updateCandidat = (req, res) => {
     if (!req.body) {
         console.log('Erreur');

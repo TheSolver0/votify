@@ -1,0 +1,225 @@
+<%- include('./partials/header') %>
+
+   
+    <section class="s-space-bottom-full bg-accent-shadow-body" style="margin-top: 100px;">
+        <div class="container">
+            <div class="breadcrumbs-area">
+                <ul>
+                    <li><a href="#">Accueil</a> -</li>
+                    <li><a href="#">Votes</a> -</li>
+                    <li class="active">Détails du vote</li>
+                </ul>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-9 col-lg-8 col-md-12 col-sm-12 col-12">
+                    <div class="gradient-wrapper item-mb">
+                        <div class="gradient-title">
+                            <h2><%= vote.title %></h2>
+                        </div>
+                        <div class="gradient-padding reduce-padding">
+                            <div class="single-product-img-layout1 item-mb">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                                         <div class="tab-content">
+                                            <img alt="img-vote"
+                                                        src="../public/uploads/images-votes/<%= vote.image %>" class=""></a>
+                                                <span class="price"><%= totalVotes %> votes</span>
+
+                                            </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="section-title-left-dark child-size-xl title-bar item-mb" style="color: black;">
+                                <h3><%= vote.title %></h3>
+                                <p>
+                                    <%= vote.description %>
+                                </p>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <div class="gradient-wrapper item-mb">
+                        <div class="gradient-title">
+                            <h2>Candidats du vote </h2>
+                            
+
+                        </div>
+                        <% if (typeof user !== 'undefined' && user && user._id.toString() === vote.author._id.toString()) { %>
+  <!-- Bouton pour ouvrir le modal -->
+  <button class="btn btn-primary" data-toggle="modal" data-target="#addCandidatModal">
+    Ajouter un candidat
+  </button>
+<% } %>
+                        <div class="gradient-padding">
+                            
+                            <div class="cp-carousel nav-control-middle category-grid-layout1" data-loop="true"
+                                data-items="4" data-margin="30" data-autoplay="true" data-autoplay-timeout="5000"
+                                data-smart-speed="2000" data-dots="false" data-nav="true" data-nav-speed="false"
+                                data-r-x-small="1" data-r-x-small-nav="true" data-r-x-small-dots="false"
+                                data-r-x-medium="2" data-r-x-medium-nav="true" data-r-x-medium-dots="false"
+                                data-r-small="2" data-r-small-nav="true" data-r-small-dots="false" data-r-medium="1"
+                                data-r-medium-nav="true" data-r-medium-dots="false" data-r-Large="1"
+                                data-r-Large-nav="true" data-r-Large-dots="false">
+                               <% vote.candidats.forEach(candidat => { %>
+                                <div class="product-box">
+                                    <div class="item-mask-wrapper">
+                                        <div class="item-mask secondary-bg-box"><img src="../public/uploads/images-candidats/<%= candidat.image %>"
+                                                alt="categories" class="img-fluid " style="height: 500px; width: 100%; object-fit: cover;">
+                                            <div class="trending-sign active" data-tips="Featured"> <i
+                                                    class="fa fa-bolt" aria-hidden="true"></i> </div>
+                                            <div class="title-ctg">Voter Pour :     <%= candidat.name %></div>
+                                            <ul class="info-link">
+                                                <li><a href="../public/uploads/images-candidats/<%= candidat.image %>" class="elv-zoom"
+                                                        data-fancybox-group="gallery" title="Image"><i
+                                                            class="fa fa-arrows-alt" aria-hidden="true"></i></a></li>
+                                                <li><a href=""><i class="fa fa-link"
+                                                            aria-hidden="true"></i></a></li>
+                                            </ul>
+                                            <!-- <div class="symbol-featured"><img src="..public/img/banner/symbol-featured.png"
+                                                    alt="symbol" class="img-fluid"> voter </div>  -->
+                                        </div>
+                                    </div>
+                                    <div class="item-content">
+                                        <div class="title-ctg">Voter pour <%= candidat.name %></div>
+                                        <h3 class="short-title"><a
+                                                href=""><%= candidat.name %></a></h3>
+                                        <h3 class="long-title"><a
+                                                href="">Voter <%= candidat.name %></a></h3>
+
+                                        <p><%= candidat.description %></p>
+                                        <div class="price"><%= candidat.nbvote %> votes</div>
+                                        <button class="btn btn-primary" style="cursor: pointer;">Voter</button>
+                                        <a href="/candidat-details/<%= candidat._id %>" class="btn btn-warning" target="_blank" style="cursor: pointer;">Voir plus</a>
+                                    </div>
+                                </div>
+                                 <% }); %>
+                               
+                            </div>
+                        </div>
+                    </div>
+                   
+                </div>
+                <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12 col-12">
+                    <div class="sidebar-item-box">
+                        <div class="gradient-wrapper">
+                            <div class="gradient-title">
+                                <h3>Informations</h3>
+                            </div>
+                            <ul class="sidebar-seller-information">
+                                <li>
+                                    <div class="media">
+                                        <img src="../public/img/user/user1.png" alt="user" class="img-fluid pull-left">
+                                        <div class="media-body">
+                                            <span>Posté par</span>
+                                            <h4><%= vote.author.name %></h4>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="media">
+                                        <img src="../public/img/user/user2.png" alt="user" class="img-fluid pull-left">
+                                        <div class="media-body">
+                                            <span>organisation</span>
+                                            <h4><%= vote.author.organisation %></h4>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="media">
+                                        <img src="../public/img/user/user3.png" alt="user" class="img-fluid pull-left">
+                                        <div class="media-body">
+                                            <span>Contact</span>
+                                            <h4><%= vote.author.tel %></h4>
+                                        </div>
+                                    </div>
+                                </li>
+                                
+                            </ul>
+                        </div>
+                    </div>
+                   
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Modal -->
+<div class="modal fade" id="addCandidatModal" style="color:black;" tabindex="-1" role="dialog" aria-labelledby="addCandidatLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <form id="formAddCandidat"  enctype="multipart/form-data">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addCandidatLabel">Ajouter un candidat</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" name="voteId" value="<%= vote._id %>" />
+          <div class="form-group">
+            <label for="name">Nom du candidat</label>
+            <input type="text" class="form-control" name="name" required />
+          </div>
+          <div class="form-group">
+            <label for="image">Image</label>
+            <input type="file" class="form-control" name="image" accept="image/*" required />
+          </div>
+          <div class="form-group">
+            <label for="description">Description</label>
+            <textarea class="form-control" name="description" rows="3"></textarea>
+          </div>
+          <input type="hidden" name="vote_id" value="<%= vote._id %>" />
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success">Enregistrer</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+    <%- include('./partials/footer') %>
+
+    <script>
+            $(document).ready(() => {
+                var notyf = new Notyf();
+                // Initialisation de Notyf
+                $("#formAddCandidat").submit(function (event) {
+                    event.preventDefault();
+
+
+                    // Récupérer les données du formulaire
+                    var formData = new FormData(this);
+                    console.log(formData)
+                    // Envoyer les données via AJAX
+                    $.ajax({
+                        type: "POST", // ou GET selon votre configuration
+                        url: "/candidat/add", // l'url de soumission
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function (response) {
+                            notyf.success(response.message);
+
+                            setTimeout(function () {
+                                window.location.href = '#'; // Redirection après 1 seconde
+                            }, 1000);
+                        },
+                        error: function (error) {
+                            console.error("Erreur lors de l'ajout du candidat:", error.responseJSON.message);
+                            notyf.error('Une erreur est survenue !  ' + error.responseJSON.message);
+
+                        }
+                    });
+
+                });
+                
+            });
+        </script>
+
+</body>
+
+</html>

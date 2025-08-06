@@ -142,94 +142,26 @@
             <div class="container-fluid seo-box-layout" id="inner-isotope">
 
                 <div class="row featuredContainer">
+                    <% votes.forEach(vote => { %>
                     <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 home">
                         <div class="product-box">
                             <div class="product-box-img">
-                                <img src="../public/img/product/Affiche concours miss.jpeg" class="img-responsive"
-                                    alt="theme">
-                                <a class="view-icon" href="../public/classipost/index.html" target="_blank"><i
+                                <img src="/public/uploads/images-votes/<%= vote.image %>" class="img-responsive"
+                                    alt="theme" style="width: 100%; height: 500px; object-fit: cover;">
+                                <a class="view-icon" href="/vote-details/<%= vote._id %>" target="_blank"><i
                                         class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a>
-                                <a class="view-text" href="../public/classipost/index.html" target="_blank">Voir
+                                <a class="view-text" href="/vote-details/<%= vote._id %>" target="_blank">Voir
                                     plus</a>
                             </div>
                             <div class="product-box-content">
-                                <div><a href="classipost/index.html" target="_blank">Concours Miss Brillance
-                                        Cameroun</a></div>
+                                <div><a href="#" target="_blank">
+                                    <%= vote.title %>
+                                        </a></div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 home">
-                        <div class="product-box">
-                            <div class="product-box-img">
-                                <img src="../public/img/product/Affiche concours miss.jpeg" class="img-responsive"
-                                    alt="theme">
-                                <a class="view-icon" href="classipost/index2.html" target="_blank"><i
-                                        class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a>
-                                <a class="view-text" href="classipost/index2.html" target="_blank">Voir plus</a>
-                            </div>
-                            <div class="product-box-content">
-                                <div><a href="classipost/index2.html" target="_blank">Concours Miss Santé</a></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 home">
-                        <div class="product-box">
-                            <div class="product-box-img">
-                                <img src="../public/img/product/Affiche concours miss.jpeg" class="img-responsive"
-                                    alt="theme">
-                                <a class="view-icon" href="classipost/index3.html" target="_blank"><i
-                                        class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a>
-                                <a class="view-text" href="classipost/index3.html" target="_blank">Voir plus</a>
-                            </div>
-                            <div class="product-box-content">
-                                <div><a href="classipost/index3.html" target="_blank">Concours Miss Beauté</a></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 home">
-                        <div class="product-box">
-                            <div class="product-box-img">
-                                <img src="../public/img/product/Affiche concours miss.jpeg" class="img-responsive"
-                                    alt="theme">
-                                <a class="view-icon" href="../public/classipost/index.html" target="_blank"><i
-                                        class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a>
-                                <a class="view-text" href="../public/classipost/index.html" target="_blank">Voir
-                                    plus</a>
-                            </div>
-                            <div class="product-box-content">
-                                <div><a href="classipost/index.html" target="_blank">Concours Miss Brillance
-                                        Cameroun</a></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 home">
-                        <div class="product-box">
-                            <div class="product-box-img">
-                                <img src="../public/img/product/Affiche concours miss.jpeg" class="img-responsive"
-                                    alt="theme">
-                                <a class="view-icon" href="classipost/index2.html" target="_blank"><i
-                                        class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a>
-                                <a class="view-text" href="classipost/index2.html" target="_blank">Voir plus</a>
-                            </div>
-                            <div class="product-box-content">
-                                <div><a href="classipost/index2.html" target="_blank">Concours Miss Santé</a></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 home">
-                        <div class="product-box">
-                            <div class="product-box-img">
-                                <img src="../public/img/product/Affiche concours miss.jpeg" class="img-responsive"
-                                    alt="theme">
-                                <a class="view-icon" href="classipost/index3.html" target="_blank"><i
-                                        class="fa fa-arrow-circle-o-right" aria-hidden="true"></i></a>
-                                <a class="view-text" href="classipost/index3.html" target="_blank">Voir plus</a>
-                            </div>
-                            <div class="product-box-content">
-                                <div><a href="classipost/index3.html" target="_blank">Concours Miss Beauté</a></div>
-                            </div>
-                        </div>
-                    </div>
+
+                    <% }); %>
 
 
                 </div>

@@ -1,28 +1,32 @@
 const Vote = require('../models/Vote');
 const User = require('../models/User');
 
-exports.getVotes = (req, res) => {
-
-    // var payload = parseJwt();
-
-    Vote.find({})
-        .populate('author')
-        .sort({ _id: -1 })
-        .then(votes => {
-            
-        //    return res.render('votes', { votes });
-        })
-        .catch(err => {
-            console.error(err);
-        });
-
+exports.getVotes = async () => {
+  try {
+    const votes = await Vote.find({})
+      .populate('author')
+      .populate('candidats')
+      .sort({ _id: -1 });
+    return votes;
+  } catch (err) {
+    console.error('Erreur dans getVotes:', err);
+    return []; // Retourne un tableau vide en cas d’erreur
+  }
 };
+
 
 exports.getVoteDetails = (req, res) => {
     const id = req.params.id;
+    
     Vote.findById(id)
+        .populate('candidats')
+        .populate('author')
         .then(vote => {
-            res.render('vote-details', { vote: vote });
+            const totalVotes = vote.candidats.reduce((sum, candidat) => {
+      return sum + (candidat.nbvote || 0);
+    }, 0);
+
+            res.render('vote-details', { vote: vote , totalVotes: totalVotes });
         })
         .catch(err => {
             console.error(err);

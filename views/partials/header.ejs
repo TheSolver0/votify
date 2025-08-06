@@ -26,11 +26,20 @@
     <link rel="stylesheet" href="../public/css2/select2.min.css">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="../public/css2/style.css">
+    
+    <!-- Owl Caousel CSS -->
+    <link rel="stylesheet" href="../public/vendor/OwlCarousel/owl.carousel.min.css">
+    <link rel="stylesheet" href="../public/vendor/OwlCarousel/owl.theme.default.min.css">
 
     <!-- css et js de notify via CDN -->
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
     <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+    
+        <!-- <script src="../public/js2/jquery-3.2.1.min.js"></script> -->
+    <script src="../public/js/jquery-2.2.4.min.js" type="text/javascript"></script>
+
+
 </head>
 
 <body>
@@ -52,7 +61,7 @@
                                 <div class="top-bar-left">
                                     <a href="#" class="cp-default-btn d-lg-none">Lancer un vote</a>
                                     <p class="d-none d-lg-block">
-                                        <i class="fa fa-life-ring" aria-hidden="true"></i>Have any questions? +237
+                                        <i class="fa fa-life-ring" aria-hidden="true"></i>Avez-vous des questions? +237
                                         690048482 or mail@votify
                                     </p>
                                 </div>
@@ -60,13 +69,20 @@
                             <div class="col-lg-6 col-md-6 col-sm-6 col-4">
                                 <div class="top-bar-right">
                                     <ul>
-                                        <li>
-                                            <button type="button" class="login-btn" data-toggle="modal"
-                                                data-target="#myModal">
-                                                <i class="fa fa-lock" aria-hidden="true"></i>Connexion
-                                            </button>
-                                        </li>
-                                        <!-- <li class="hidden-mb">
+                                        <% if(typeof user !=='undefined' && user) { %>
+                                            <li onclick="logout();" style="color:red; cursor: pointer;">
+                                                <a> Déconnexion</a>
+                                            </li>
+                                            <% } else { %>
+                                                <li>
+                                                    <button type="button" class="login-btn" data-toggle="modal"
+                                                        data-target="#myModal">
+                                                        <i class="fa fa-lock" aria-hidden="true"></i>Connexion
+                                                    </button>
+                                                </li>
+                                                <% } %>
+
+                                                    <!-- <li class="hidden-mb">
                                             <a class="login-btn" href="#" id="login-button">
                                                 <i class="fa fa-comments-o" aria-hidden="true"></i>Live Chat
                                             </a>
@@ -101,21 +117,22 @@
 
                                             <li><a href="/">Contact</a></li>
 
-                                                <% if(typeof user !== 'undefined' && user) { %>
-                                            <li onclick="logout();">
-                                                    <a > Déconnexion</a>
-                                            </li>
+                                            <% if(typeof user !=='undefined' && user) { %>
+                                                <li onclick="logout();">
+                                                    <a> Déconnexion</a>
+                                                </li>
                                                 <% } else { %>
-                                            <li>
-                                                    <a href="/login"> Connexion</a>
-                                            </li>
-                                                <% } %>
-                                            <!-- <a href="#" class="buy-btn">Connexion</a> -->
+                                                    <li>
+                                                        <a href="/login"> Connexion</a>
+                                                    </li>
+                                                    <% } %>
+                                                        <!-- <a href="#" class="buy-btn">Connexion</a> -->
                                         </ul>
                                     </nav>
                                 </div>
                             </div>
-                            <div class="col-lg-2 col-md-2 col-sm-3 text-right" data-target="#modalVote" data-toggle="modal">
+                            <div class="col-lg-2 col-md-2 col-sm-3 text-right" data-target="#modalVote"
+                                data-toggle="modal">
                                 <a href="#" class="cp-default-btn" style="padding: 7px !important;">Lancer un vote</a>
                             </div>
                         </div>
@@ -190,19 +207,22 @@
                     </div>
                     <div class="modal-body">
                         <div class="login-form">
-                            <form id="formVote"  enctype="multipart/form-data">
+                            <form id="formVote" enctype="multipart/form-data">
                                 <label>Titre *</label>
-                                <input type="text" id="title" name="title" placeholder="Par exemple : Concours miss cameroun" />
+                                <input type="text" id="title" name="title"
+                                    placeholder="Par exemple : Concours miss cameroun" />
                                 <label>Description *</label>
                                 <input type="text" name="description" id="description" />
-                                <input type="file" placeholder="image" name="image" id="image" accept=".jpg, .jpeg, .png, .gif">
-                                                <% if(typeof user !== 'undefined' && user) { %>
-                                <input type="hidden" name="user_id" id="user_id" value="<%= user._id %>">
-                                                <% } %>
-                                
-                                
-                                <button class="default-big-btn" type="submit" value="Login">Enregistrer</button>
-                                <button class="default-big-btn form-cancel" type="submit" value="">Annuler</button>
+                                <input type="file" placeholder="image" name="image" id="image"
+                                    accept=".jpg, .jpeg, .png, .gif">
+                                <% if(typeof user !=='undefined' && user) { %>
+                                    <input type="hidden" name="user_id" id="user_id" value="<%= user._id %>">
+                                    <% } %>
+
+
+                                        <button class="default-big-btn" type="submit" value="Login">Enregistrer</button>
+                                        <button class="default-big-btn form-cancel" type="submit"
+                                            value="">Annuler</button>
                             </form>
                         </div>
                     </div>
@@ -211,18 +231,77 @@
         </div>
         <script>
             function logout(arguments) {
-            fetch('/logout', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-                .then(response => response.json())
-                .then(data => {
-                    localStorage.removeItem('token')
-                    // Optionnel : redirection après la déconnexion
-                    window.location.href = '/login'; // Redirige vers la page de connexion
+                fetch('/logout', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
                 })
-                .catch(error => console.error('Erreur:', error));
-        }
+                    .then(response => response.json())
+                    .then(data => {
+                        localStorage.removeItem('token')
+                        // Optionnel : redirection après la déconnexion
+                        window.location.href = '/login'; // Redirige vers la page de connexion
+                    })
+                    .catch(error => console.error('Erreur:', error));
+            }
+        </script>
+
+        <script>
+            $(document).ready(() => {
+                var notyf = new Notyf();
+                // Initialisation de Notyf
+                $("#formregister").submit(function (event) {
+                    event.preventDefault();
+
+
+                    // Récupérer les données du formulaire
+                    var formData = new FormData(this);
+                    console.log(formData)
+                    // Envoyer les données via AJAX
+                    $.ajax({
+                        type: "POST", // ou GET selon votre configuration
+                        url: "/users/register", // l'url de soumission
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function (response) {
+                            notyf.success(response.message);
+
+                            setTimeout(function () {
+                                window.location.href = '/dashboard'; // Redirection après 1 seconde
+                            }, 1000);
+                        },
+                        error: function (error) {
+                            notyf.error('Something went wrong!', error);
+
+                        }
+                    });
+
+                });
+                var form = document.querySelector('#formLogin');
+                form.addEventListener("submit", function (event) {
+                    event.preventDefault();
+
+                    // var email = document.getElementById('email').value;
+                    // var password = document.getElementById('password').value;
+                    var formData = new FormData(this);
+                    console.log(formData)
+
+                    axios.post('/login', formData)
+                        .then(function (response) {
+                            notyf.success('Connexion réussie !');
+                            console.log(response.data);
+                            setTimeout(function () {
+                                window.location.href = '/dashboard'; // Redirection après 1 seconde
+                            }, 1000);
+                            // Gérer la réponse du serveur ici
+                        })
+                        .catch(function (error) {
+                            notyf.error('Erreur de connexion : ' + error.response.data.message);
+                            console.error('Erreur:', error);
+                            // Gérer les erreurs ici
+                        });
+                });
+            });
         </script>

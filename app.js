@@ -104,6 +104,21 @@ const authenticateToken = (req, res, next) => {
         next();
     });
 };
+function attachUserIfAuthenticated(req, res, next) {
+    const token = req.headers.cookie.split('token=')[1];
+    console.log('Token:', token);
+  // const token = req.cookies.token || req.headers.authorization?.split(' ')[1];
+  if (!token) return next(); // Aucun token => continuer sans req.user
+
+  jwt.verify(token, SECRET, (err, decoded) => {
+    if (!err) {
+      req.user = decoded; // Injecte l'user s'il est valide
+      console.log('User attached:', req.user);
+      res.locals.user = decoded.user; // Pour l'accès dans les vues
+    }
+    next(); // Toujours passer à la suite
+  });
+}
 
 
 app.use('/public', express.static('public'))
@@ -114,9 +129,26 @@ app.set('views', './views')
 app.set('view engine', 'ejs')
 
 
-app.get('/', (req, res) => {
-  res.render('index', { title: 'Home', votes: [], candidats: [] }, );
-})
+app.get('/', async (req, res) => {
+  try {
+    const votes = await voteController.getVotes();
+
+    res.render('index', {
+      title: 'Home',
+      votes,
+    });
+  } catch (error) {
+    console.error('Erreur lors du chargement des données :', error);
+    res.status(500).send('Erreur serveur');
+  }
+
+  
+});
+
+// app.get('/', (req, res) => { 
+//   res.render('index', { title: 'Home', votes: [], candidats: [] }); 
+// });
+
 
 
 app.get('/votes', voteController.getVotes);
@@ -127,9 +159,13 @@ app.post('/vote/add',voteUpload.single('image'),authenticateToken, voteControlle
 
 // app.get('/movies/search', movieController.getMovieSearch);
 
-app.get('/vote/add', authenticateToken, voteController.getVoteAdd);
+// app.get('/vote/add', authenticateToken, voteController.getVoteAdd);
+// app.get('/vot', (req, res) => { 
+//   res.render('vote-details'); 
+// });
 
-app.get('/vote-details/:id', voteController.getVoteDetails);
+app.get('/vote-details/:id',attachUserIfAuthenticated, voteController.getVoteDetails);
+// app.get('/vote-details/:id',authenticateToken, voteController.getVoteDetails);
 
 app.put('/vote/:id', authenticateToken, upload.fields([]), voteController.updateVote);
 
@@ -144,9 +180,9 @@ app.post('/candidat/add',candidatUpload.single('image'), candidatController.post
 
 // app.get('/movies/search', movieController.getMovieSearch);
 
-app.get('/candidat/add', authenticateToken, candidatController.getCandidatAdd);
+// app.get('/candidat/add', authenticateToken, candidatController.getCandidatAdd);
 
-app.get('/candidat-details/:id', candidatController.getCandidatDetails);
+app.get('/candidat-details/:id',attachUserIfAuthenticated, candidatController.getCandidatDetails);
 
 app.put('/candidat/:id', authenticateToken, upload.fields([]), candidatController.updateCandidat);
 

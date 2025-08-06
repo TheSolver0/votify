@@ -137,64 +137,6 @@
       
        
 
-        <script>
-            $(document).ready(() => {
-                var notyf = new Notyf();
-                // Initialisation de Notyf
-                $("#formregister").submit(function (event) {
-                    event.preventDefault();
-
-
-                    // Récupérer les données du formulaire
-                    var formData = new FormData(this);
-                    console.log(formData)
-                    // Envoyer les données via AJAX
-                    $.ajax({
-                        type: "POST", // ou GET selon votre configuration
-                        url: "/users/register", // l'url de soumission
-                        data: formData,
-                        processData: false,
-                        contentType: false,
-                        success: function (response) {
-                            notyf.success(response.message);
-
-                            setTimeout(function () {
-                                window.location.href = '/dashboard'; // Redirection après 1 seconde
-                            }, 1000);
-                        },
-                        error: function (error) {
-                            notyf.error('Something went wrong!', error);
-
-                        }
-                    });
-
-                });
-                var form = document.querySelector('#formLogin');
-                form.addEventListener("submit", function (event) {
-                    event.preventDefault();
-
-                    // var email = document.getElementById('email').value;
-                    // var password = document.getElementById('password').value;
-                    var formData = new FormData(this);
-                    console.log(formData)
-
-                    axios.post('/login', formData)
-                        .then(function (response) {
-                            notyf.success('Connexion réussie !');
-                            console.log(response.data);
-                            setTimeout(function () {
-                                window.location.href = '/dashboard'; // Redirection après 1 seconde
-                            }, 1000);
-                            // Gérer la réponse du serveur ici
-                        })
-                        .catch(function (error) {
-                            notyf.error('Erreur de connexion : ' + error.response.data.message);
-                            console.error('Erreur:', error);
-                            // Gérer les erreurs ici
-                        });
-                });
-            });
-        </script>
 
 
         </body>

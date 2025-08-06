@@ -1,0 +1,142 @@
+<%- include('./partials/header') %>
+
+
+    <section class="s-space-bottom-full bg-accent-shadow-body" style="margin-top: 100px;">
+        <div class="container">
+            <div class="breadcrumbs-area">
+                <ul>
+                    <li><a href="#">Accueil</a> -</li>
+                    <li><a href="#">Votes</a> -</li>
+                    <li class="active">Détails du Candidats</li>
+                </ul>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12 col-lg-8 col-md-12 col-sm-12 col-12">
+                    <div class="gradient-wrapper item-mb">
+                        <div class="gradient-title">
+                            <h2>
+                                <%= candidat.name %>
+                            </h2>
+                        </div>
+                        <div class="gradient-padding reduce-padding">
+                            <div class="single-product-img-layout1 item-mb">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                                        <div class="tab-content">
+                                            <img alt="img-vote"
+                                                src="../public/uploads/images-candidats/<%= candidat.image %>" style="width: 100%; max-height: 650px;object-fit: cover;" class="img-fluid"></a>
+                                            <span class="price">
+                                                <%= candidat.nbvote %> votes
+                                            </span>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="section-title-left-dark child-size-xl title-bar item-mb" style="color: black;">
+                                <h3>
+                                    <%= candidat.name %>
+                                </h3>
+                                <p>
+                                    <%= candidat.description %>
+                                </p>
+                            </div>
+                                <button type="button" class="btn btn-primary" style="cursor: pointer;">Voter</button>
+
+                        </div>
+                    </div>
+                    <% if (typeof user !=='undefined' && user && candidat && candidat.vote && candidat.vote.author &&user._id.toString()===candidat.vote.author._id.toString()) { %>
+                        <div class="gradient-wrapper item-mb">
+                            <div class="gradient-title">
+                                <h2>Modifier vote </h2>
+
+
+                            </div>
+
+                        </div>
+                        <form id="formUpdateCandidat" enctype="multipart/form-data" style="color: black;">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="addCandidatLabel">Ajouter un candidat</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label for="name">Nom du candidat</label>
+                                        <input type="text" class="form-control" name="name" value="<%= candidat.name %>" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="image">Image</label>
+                                        <input type="file" class="form-control" name="image" value="" accept="image/*"
+                                            required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="description">Description</label>
+                                        <textarea class="form-control" name="description" rows="3"><%= candidat.description %></textarea>
+                                    </div>
+                                    <input type="hidden" name="vote_id" value="<%= candidat.vote._id %>" />
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-success">Enregistrer</button>
+                                    <button type="button" class="btn btn-secondary"
+                                        data-dismiss="modal">Annuler</button>
+                                </div>
+                            </div>
+                        </form>
+                </div>
+                <% } %>
+
+                   
+            </div>
+        </div>
+    </section>
+    <!-- Modal -->
+
+
+    <%- include('./partials/footer') %>
+
+        <script>
+            $(document).ready(() => {
+                var notyf = new Notyf();
+                // Initialisation de Notyf
+                $("#formAddCandidat").submit(function (event) {
+                    event.preventDefault();
+
+
+                    // Récupérer les données du formulaire
+                    var formData = new FormData(this);
+                    console.log(formData)
+                    // Envoyer les données via AJAX
+                    $.ajax({
+                        type: "POST", // ou GET selon votre configuration
+                        url: "/candidat/add", // l'url de soumission
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function (response) {
+                            notyf.success(response.message);
+
+                            setTimeout(function () {
+                                window.location.href = '#'; // Redirection après 1 seconde
+                            }, 1000);
+                        },
+                        error: function (error) {
+                            console.error("Erreur lors de l'ajout du candidat:", error.responseJSON.message);
+                            notyf.error('Une erreur est survenue !  ' + error.responseJSON.message);
+
+                        }
+                    });
+
+                });
+
+            });
+        </script>
+
+        </body>
+
+        </html>
