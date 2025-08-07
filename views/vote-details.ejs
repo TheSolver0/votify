@@ -1,6 +1,6 @@
 <%- include('./partials/header') %>
 
-   
+
     <section class="s-space-bottom-full bg-accent-shadow-body" style="margin-top: 100px;">
         <div class="container">
             <div class="breadcrumbs-area">
@@ -15,46 +15,75 @@
             <div class="row">
                 <div class="col-xl-9 col-lg-8 col-md-12 col-sm-12 col-12">
                     <div class="gradient-wrapper item-mb">
-                        <div class="gradient-title">
-                            <h2><%= vote.title %></h2>
+
+                        <div class="gradient-title"
+                            style="display: flex; justify-content: space-between; align-items: center;">
+                            <h2>
+                                <%= vote.title %>
+                            </h2>
+                            <h2>
+                                <% if (typeof user !=='undefined' && user &&
+                                    user._id.toString()===vote.author._id.toString()) { %>
+                                    <!-- Bouton pour ouvrir le modal -->
+                                    <button class="btn btn-light" data-toggle="modal" style="cursor: pointer;"
+                                        data-target="#updateVoteModal">
+                                        <i class="fa fa-pencil">&nbsp;Modifier le vote</i>
+                                    </button>
+                                    <!-- <button class="btn btn-danger" data-toggle="modal" style="cursor: pointer;" data-target="#deleteVoteModal"> -->
+                                    <button class="btn btn-danger delete-btn" data-toggle="modal"
+                                        data-target="#deleteModal" style="cursor: pointer;">
+                                        <i class="fa fa-trash">&nbsp;Supprimer le vote</i>
+                                    </button>
+                                    <% } %>
+                                        <!-- <i class="fa fa-pencil">Modifier</i></h2> -->
                         </div>
+
                         <div class="gradient-padding reduce-padding">
                             <div class="single-product-img-layout1 item-mb">
                                 <div class="row">
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-12">
-                                         <div class="tab-content">
-                                            <img alt="img-vote"
-                                                        src="../public/uploads/images-votes/<%= vote.image %>" class=""></a>
-                                                <span class="price"><%= totalVotes %> votes</span>
+                                        <div class="tab-content">
+                                            <img alt="img-vote" src="../public/uploads/images-votes/<%= vote.image %>"
+                                                class="" style="width: 100%; max-height: 650px; object-fit: cover;"></a>
+                                            <span class="price" style="background-color:#FDB001; padding: 10px;; box-shadow: 2px 2px 5px rgba(0,0,0,0.5);">
+                                                <%= totalVotes %> votes
+                                            </span>
 
-                                            </div>
+                                        </div>
                                     </div>
-                                    
+
                                 </div>
                             </div>
                             <div class="section-title-left-dark child-size-xl title-bar item-mb" style="color: black;">
-                                <h3><%= vote.title %></h3>
+                                <h3>
+                                    <%= vote.title %>
+                                </h3>
                                 <p>
                                     <%= vote.description %>
                                 </p>
                             </div>
-                            
+
                         </div>
                     </div>
                     <div class="gradient-wrapper item-mb">
-                        <div class="gradient-title">
+                        <div class="gradient-title"
+                            style="display: flex; justify-content: space-between; align-items: center;">
                             <h2>Candidats du vote </h2>
-                            
+                            <h2>
+                                <% if (typeof user !=='undefined' && user &&
+                                    user._id.toString()===vote.author._id.toString()) { %>
+                                    <!-- Bouton pour ouvrir le modal -->
+                                    <button class="btn btn-primary" style="cursor: pointer;" data-toggle="modal"
+                                        data-target="#addCandidatModal">
+                                        <i class="fa fa-plus">Ajouter un candidat</i>
+                                    </button>
+                                    <% } %>
+                            </h2>
 
                         </div>
-                        <% if (typeof user !== 'undefined' && user && user._id.toString() === vote.author._id.toString()) { %>
-  <!-- Bouton pour ouvrir le modal -->
-  <button class="btn btn-primary" data-toggle="modal" data-target="#addCandidatModal">
-    Ajouter un candidat
-  </button>
-<% } %>
+
                         <div class="gradient-padding">
-                            
+
                             <div class="cp-carousel nav-control-middle category-grid-layout1" data-loop="true"
                                 data-items="4" data-margin="30" data-autoplay="true" data-autoplay-timeout="5000"
                                 data-smart-speed="2000" data-dots="false" data-nav="true" data-nav-speed="false"
@@ -63,44 +92,107 @@
                                 data-r-small="2" data-r-small-nav="true" data-r-small-dots="false" data-r-medium="1"
                                 data-r-medium-nav="true" data-r-medium-dots="false" data-r-Large="1"
                                 data-r-Large-nav="true" data-r-Large-dots="false">
-                               <% vote.candidats.forEach(candidat => { %>
-                                <div class="product-box">
-                                    <div class="item-mask-wrapper">
-                                        <div class="item-mask secondary-bg-box"><img src="../public/uploads/images-candidats/<%= candidat.image %>"
-                                                alt="categories" class="img-fluid " style="height: 500px; width: 100%; object-fit: cover;">
-                                            <div class="trending-sign active" data-tips="Featured"> <i
-                                                    class="fa fa-bolt" aria-hidden="true"></i> </div>
-                                            <div class="title-ctg">Voter Pour :     <%= candidat.name %></div>
-                                            <ul class="info-link">
-                                                <li><a href="../public/uploads/images-candidats/<%= candidat.image %>" class="elv-zoom"
-                                                        data-fancybox-group="gallery" title="Image"><i
-                                                            class="fa fa-arrows-alt" aria-hidden="true"></i></a></li>
-                                                <li><a href=""><i class="fa fa-link"
-                                                            aria-hidden="true"></i></a></li>
-                                            </ul>
-                                            <!-- <div class="symbol-featured"><img src="..public/img/banner/symbol-featured.png"
-                                                    alt="symbol" class="img-fluid"> voter </div>  -->
-                                        </div>
-                                    </div>
-                                    <div class="item-content">
-                                        <div class="title-ctg">Voter pour <%= candidat.name %></div>
-                                        <h3 class="short-title"><a
-                                                href=""><%= candidat.name %></a></h3>
-                                        <h3 class="long-title"><a
-                                                href="">Voter <%= candidat.name %></a></h3>
+                                <% if (vote.candidats && vote.candidats.length < 2) { %>
+                                    <% vote.candidats.forEach(candidat=> { %>
+                                        <div class="product-box">
+                                            <div class="item-mask-wrapper">
+                                                <div class="item-mask secondary-bg-box"><img
+                                                        src="../public/uploads/images-candidats/<%= candidat.image %>"
+                                                        alt="categories" class="img-fluid "
+                                                        style="height: 500px; width: 100%; object-fit: cover;">
+                                                    <div class="trending-sign active" data-tips="Featured"> <i
+                                                            class="fa fa-bolt" aria-hidden="true"></i> </div>
+                                                    <div class="title-ctg">Voter Pour : <%= candidat.name %>
+                                                    </div>
+                                                    <ul class="info-link">
+                                                        <li><a href="../public/uploads/images-candidats/<%= candidat.image %>"
+                                                                class="elv-zoom" data-fancybox-group="gallery"
+                                                                title="Image"><i class="fa fa-arrows-alt"
+                                                                    aria-hidden="true"></i></a></li>
+                                                        <li><a href="/candidat-details/<%= candidat._id %>"><i
+                                                                    class="fa fa-link" aria-hidden="true"></i></a></li>
+                                                    </ul>
+                                                    <div class="symbol-featured"><img src="..public/img/banner/symbol-featured.png"
+                                                    alt="symbol" class="img-fluid"> voter </div>  
+                                                </div>
+                                            </div>
+                                            <div class="item-content">
+                                                <div class="title-ctg">Voter pour <%= candidat.name %>
+                                                </div>
+                                                <h3 class="short-title"><a href="">
+                                                        <%= candidat.name %>
+                                                    </a></h3>
+                                                <h3 class="long-title"><a href="">Voter <%= candidat.name %></a></h3>
 
-                                        <p><%= candidat.description %></p>
-                                        <div class="price"><%= candidat.nbvote %> votes</div>
-                                        <button class="btn btn-primary" style="cursor: pointer;">Voter</button>
-                                        <a href="/candidat-details/<%= candidat._id %>" class="btn btn-warning" target="_blank" style="cursor: pointer;">Voir plus</a>
-                                    </div>
-                                </div>
-                                 <% }); %>
-                               
+                                                <p>
+                                                    <%= candidat.description %>
+                                                </p>
+                                                <div class="price">
+                                                    <%= candidat.nbvote %> votes
+                                                </div>
+                                                 <button class="btn btn-primary"
+                                                                id="voterCandidat<%= candidat._id %>"
+                                                                style="cursor: pointer;">Voter</button>
+                                                <a href="/candidat-details/<%= candidat._id %>" class="btn btn-warning"
+                                                    target="_blank" style="cursor: pointer;">Voir plus</a>
+                                            </div>
+                                        </div>
+                                        <% }); %>
+                                            <% }; %>
+
+                                                <% vote.candidats.forEach(candidat=> { %>
+                                                    <div class="product-box">
+                                                        <div class="item-mask-wrapper">
+                                                            <div class="item-mask secondary-bg-box"><img
+                                                                    src="../public/uploads/images-candidats/<%= candidat.image %>"
+                                                                    alt="categories" class="img-fluid "
+                                                                    style="height: 500px; width: 100%; object-fit: cover;">
+                                                                <div class="trending-sign active" data-tips="Featured">
+                                                                    <i class="fa fa-bolt" aria-hidden="true"></i> </div>
+                                                                <div class="title-ctg">Voter Pour : <%= candidat.name %>
+                                                                </div>
+                                                                <ul class="info-link">
+                                                                    <li><a href="../public/uploads/images-candidats/<%= candidat.image %>"
+                                                                            class="elv-zoom"
+                                                                            data-fancybox-group="gallery"
+                                                                            title="Image"><i class="fa fa-arrows-alt"
+                                                                                aria-hidden="true"></i></a></li>
+                                                                    <li><a href="/candidat-details/<%= candidat._id %>"><i
+                                                                                class="fa fa-link"
+                                                                                aria-hidden="true"></i></a></li>
+                                                                </ul>
+                                                                
+                                                            </div>
+                                                        </div>
+                                                        <div class="item-content">
+                                                            <div class="title-ctg">Voter pour <%= candidat.name %>
+                                                            </div>
+                                                            <h3 class="short-title"><a href="">
+                                                                    <%= candidat.name %>
+                                                                </a></h3>
+                                                            <h3 class="long-title"><a href="">Voter <%= candidat.name %>
+                                                                        </a></h3>
+
+                                                            <p>
+                                                                <%= candidat.description %>
+                                                            </p>
+                                                            <div class="price">
+                                                                <%= candidat.nbvote %> votes
+                                                            </div>
+                                                            <button class="btn btn-primary"
+                                                                id="voterCandidat<%= candidat._id %>"
+                                                                style="cursor: pointer;">Voter</button>
+                                                            <a href="/candidat-details/<%= candidat._id %>"
+                                                                class="btn btn-warning" target="_blank"
+                                                                style="cursor: pointer;">Voir plus</a>
+                                                        </div>
+                                                    </div>
+                                                    <% }); %>
+
                             </div>
                         </div>
                     </div>
-                   
+
                 </div>
                 <div class="col-xl-3 col-lg-4 col-md-12 col-sm-12 col-12">
                     <div class="sidebar-item-box">
@@ -114,7 +206,9 @@
                                         <img src="../public/img/user/user1.png" alt="user" class="img-fluid pull-left">
                                         <div class="media-body">
                                             <span>Posté par</span>
-                                            <h4><%= vote.author.name %></h4>
+                                            <h4>
+                                                <%= vote.author.name %>
+                                            </h4>
                                         </div>
                                     </div>
                                 </li>
@@ -123,7 +217,9 @@
                                         <img src="../public/img/user/user2.png" alt="user" class="img-fluid pull-left">
                                         <div class="media-body">
                                             <span>organisation</span>
-                                            <h4><%= vote.author.organisation %></h4>
+                                            <h4>
+                                                <%= vote.author.organisation %>
+                                            </h4>
                                         </div>
                                     </div>
                                 </li>
@@ -132,94 +228,245 @@
                                         <img src="../public/img/user/user3.png" alt="user" class="img-fluid pull-left">
                                         <div class="media-body">
                                             <span>Contact</span>
-                                            <h4><%= vote.author.tel %></h4>
+                                            <h4>
+                                                <%= vote.author.tel %>
+                                            </h4>
                                         </div>
                                     </div>
                                 </li>
-                                
+
                             </ul>
                         </div>
                     </div>
-                   
+
                 </div>
             </div>
         </div>
     </section>
     <!-- Modal -->
-<div class="modal fade" id="addCandidatModal" style="color:black;" tabindex="-1" role="dialog" aria-labelledby="addCandidatLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <form id="formAddCandidat"  enctype="multipart/form-data">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="addCandidatLabel">Ajouter un candidat</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
-            <span aria-hidden="true">&times;</span>
-          </button>
+    <div class="modal fade" id="addCandidatModal" style="color:black;" tabindex="-1" role="dialog"
+        aria-labelledby="addCandidatLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <form id="formAddCandidat" enctype="multipart/form-data">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addCandidatLabel">Ajouter un candidat</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="voteId" value="<%= vote._id %>" />
+                        <div class="form-group">
+                            <label for="name">Nom du candidat</label>
+                            <input type="text" class="form-control" name="name" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="image">Image</label>
+                            <input type="file" class="form-control" name="image" accept="image/*" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <textarea class="form-control" name="description" rows="3"></textarea>
+                        </div>
+                        <input type="hidden" name="vote_id" value="<%= vote._id %>" />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Enregistrer</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                    </div>
+                </div>
+            </form>
         </div>
-        <div class="modal-body">
-          <input type="hidden" name="voteId" value="<%= vote._id %>" />
-          <div class="form-group">
-            <label for="name">Nom du candidat</label>
-            <input type="text" class="form-control" name="name" required />
-          </div>
-          <div class="form-group">
-            <label for="image">Image</label>
-            <input type="file" class="form-control" name="image" accept="image/*" required />
-          </div>
-          <div class="form-group">
-            <label for="description">Description</label>
-            <textarea class="form-control" name="description" rows="3"></textarea>
-          </div>
-          <input type="hidden" name="vote_id" value="<%= vote._id %>" />
+    </div>
+
+    <!-- --------------------------------------- -->
+
+    <div class="modal fade" id="updateVoteModal" style="color:black;" tabindex="-1" role="dialog"
+        aria-labelledby="addCandidatLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <form id="formUpdateVote" enctype="multipart/form-data">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addCandidatLabel">Modifier le vote</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="name">Title</label>
+                            <input type="text" class="form-control" name="title" value="<%= vote.title %>" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="image">Image</label>
+                            <input type="file" class="form-control" name="image" accept="image/*" />
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <textarea class="form-control" name="description" rows="3"
+                                required><%= vote.description %></textarea>
+                        </div>
+                        <input type="hidden" name="vote_id" value="<%= vote._id %>" />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Mettre à Jour</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                    </div>
+                </div>
+            </form>
         </div>
-        <div class="modal-footer">
-          <button type="submit" class="btn btn-success">Enregistrer</button>
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+    </div>
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+        aria-hidden="true" style="color:black;">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <form id="deleteForm">
+                    <div class="modal-header bg-danger text-white">
+                        <h5 class="modal-title" id="deleteModalLabel">Confirmer la suppression</h5>
+                        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Fermer">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p id="modalMessage">Voulez-vous vraiment supprimer ce vote ?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                        <button type="submit" class="btn btn-danger">Confirmer</button>
+                    </div>
+                </form>
+            </div>
         </div>
-      </div>
-    </form>
-  </div>
-</div>
 
-    <%- include('./partials/footer') %>
+        <%- include('./partials/footer') %>
 
-    <script>
-            $(document).ready(() => {
-                var notyf = new Notyf();
-                // Initialisation de Notyf
-                $("#formAddCandidat").submit(function (event) {
-                    event.preventDefault();
+            <script>
+                $(document).ready(() => {
+                    var notyf = new Notyf();
+                    // Initialisation de Notyf
+                    $("#formAddCandidat").submit(function (event) {
+                        event.preventDefault();
 
 
-                    // Récupérer les données du formulaire
-                    var formData = new FormData(this);
-                    console.log(formData)
-                    // Envoyer les données via AJAX
-                    $.ajax({
-                        type: "POST", // ou GET selon votre configuration
-                        url: "/candidat/add", // l'url de soumission
-                        data: formData,
-                        processData: false,
-                        contentType: false,
-                        success: function (response) {
-                            notyf.success(response.message);
+                        // Récupérer les données du formulaire
+                        var formData = new FormData(this);
+                        console.log(formData)
+                        // Envoyer les données via AJAX
+                        $.ajax({
+                            type: "POST", // ou GET selon votre configuration
+                            url: "/candidat/add", // l'url de soumission
+                            data: formData,
+                            processData: false,
+                            contentType: false,
+                            success: function (response) {
+                                notyf.success(response.message);
 
-                            setTimeout(function () {
-                                window.location.href = '#'; // Redirection après 1 seconde
-                            }, 1000);
-                        },
-                        error: function (error) {
-                            console.error("Erreur lors de l'ajout du candidat:", error.responseJSON.message);
-                            notyf.error('Une erreur est survenue !  ' + error.responseJSON.message);
+                                setTimeout(function () {
+                                    location.reload(); // Redirection après 1 seconde
+                                }, 1000);
+                            },
+                            error: function (error) {
+                                console.error("Erreur lors de l'ajout du candidat:", error.responseJSON.message);
+                                notyf.error('Une erreur est survenue !  ' + error.responseJSON.message);
 
-                        }
+                            }
+                        });
+
                     });
 
+                    $("#formUpdateVote").submit(function (event) {
+                        event.preventDefault();
+                        $("#formUpdateVote button[type='submit']").prop("disabled", true);
+
+                        // Récupérer les données du formulaire
+                        var formData = new FormData(this);
+                        const voteId = "<%= vote._id %>";
+
+                        console.log(formData)
+                        // Envoyer les données via AJAX
+                        $.ajax({
+                            type: "PUT", // ou GET selon votre configuration
+                            url: "/vote/" + voteId, // l'url de soumission
+                            data: formData,
+                            processData: false,
+                            contentType: false,
+                            success: function (response) {
+                                notyf.success(response.message);
+
+                                setTimeout(function () {
+                                    location.reload(); // Redirection après 1 seconde
+                                }, 1000);
+                            },
+                            error: function (error) {
+                                console.error("Erreur lors de la mise à jour :", error.responseJSON.message);
+                                notyf.error('Une erreur est survenue !  ' + error.responseJSON.message);
+                                $("#formUpdateVote button[type='submit']").prop("disabled", false);
+                            }
+                        });
+
+                    });
+                    $("#deleteForm").submit(function (event) {
+                        event.preventDefault();
+
+                        $("#deleteForm button[type='submit']").prop("disabled", true);
+
+
+                        const voteId = "<%= vote._id %>";
+
+                        // Envoyer les données via AJAX
+                        $.ajax({
+                            type: "DELETE", // ou GET selon votre configuration
+                            url: "/vote/" + voteId, // l'url de soumission
+
+                            processData: false,
+                            contentType: false,
+                            success: function (response) {
+                                notyf.success(response.message);
+
+                                setTimeout(function () {
+                                    window.location.href = '/dashboard'; // Redirection après 1 seconde
+                                }, 1000);
+                            },
+                            error: function (error) {
+                                console.error("Erreur lors de la suppression du vote:", error.responseJSON.message);
+                                notyf.error('Une erreur est survenue !  ' + error.responseJSON.message);
+                                $("#deleteForm button[type='submit']").prop("disabled", false);
+
+                            }
+                        });
+
+                    });
+
+                    $('[id^="voterCandidat"]').on('click', function (event) {
+                        event.preventDefault();
+
+                        const $button = $(this);
+                        const candidatId = $button.attr('id').replace('voterCandidat', '');
+
+                        $button.prop('disabled', true).text('Vote en cours...');
+
+                        $.ajax({
+                            type: "POST",
+                            url: `/voter/${candidatId}`,
+                            data: {}, // Pas besoin de FormData si tu n’envoies rien
+                            success: function (response) {
+                                notyf.success(response.message || "Vote enregistré !");
+                                setTimeout(() => location.reload(), 1000);
+                            },
+                            error: function (error) {
+                                const message = error.responseJSON?.message || "Erreur inconnue";
+                                console.error("Erreur lors du vote :", message);
+                                notyf.error('Une erreur est survenue : ' + message);
+                                $button.prop('disabled', false).text('Voter');
+                            }
+                        });
+                    });
+
+
                 });
-                
-            });
-        </script>
+            </script>
 
-</body>
+            </body>
 
-</html>
+            </html>

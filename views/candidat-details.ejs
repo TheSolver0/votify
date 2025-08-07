@@ -26,7 +26,9 @@
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                                         <div class="tab-content">
                                             <img alt="img-vote"
-                                                src="../public/uploads/images-candidats/<%= candidat.image %>" style="width: 100%; max-height: 650px;object-fit: cover;" class="img-fluid"></a>
+                                                src="../public/uploads/images-candidats/<%= candidat.image %>"
+                                                style="width: 100%; max-height: 650px;object-fit: cover;"
+                                                class="img-fluid"></a>
                                             <span class="price">
                                                 <%= candidat.nbvote %> votes
                                             </span>
@@ -44,15 +46,24 @@
                                     <%= candidat.description %>
                                 </p>
                             </div>
-                                <button type="button" class="btn btn-primary" style="cursor: pointer;">Voter</button>
+                            <button class="btn btn-primary" id="voterCandidat<%= candidat._id %>"
+                                style="cursor: pointer;">Voter</button>
 
                         </div>
                     </div>
-                    <% if (typeof user !=='undefined' && user && candidat && candidat.vote && candidat.vote.author &&user._id.toString()===candidat.vote.author._id.toString()) { %>
+                    <% if (typeof user !=='undefined' && user && candidat && candidat.vote && candidat.vote.author
+                        &&user._id.toString()===candidat.vote.author._id.toString()) { %>
                         <div class="gradient-wrapper item-mb">
-                            <div class="gradient-title">
-                                <h2>Modifier vote </h2>
+                            <div class="gradient-title"
+                                style="display: flex; justify-content: space-between; align-items: center;">
+                                <h2>Modifier Candidat </h2>
+                                <h2>
+                                    <button class="btn btn-danger delete-btn" data-toggle="modal"
+                                        data-target="#deleteModal" style="cursor: pointer;">
+                                        <i class="fa fa-trash"> Supprimer le candidat</i>
+                                    </button>
 
+                                </h2>
 
                             </div>
 
@@ -60,7 +71,7 @@
                         <form id="formUpdateCandidat" enctype="multipart/form-data" style="color: black;">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="addCandidatLabel">Ajouter un candidat</h5>
+                                    <h5 class="modal-title" id="addCandidatLabel">Mettre à jour un candidat</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -68,16 +79,18 @@
                                 <div class="modal-body">
                                     <div class="form-group">
                                         <label for="name">Nom du candidat</label>
-                                        <input type="text" class="form-control" name="name" value="<%= candidat.name %>" required />
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="image">Image</label>
-                                        <input type="file" class="form-control" name="image" value="" accept="image/*"
+                                        <input type="text" class="form-control" name="name" value="<%= candidat.name %>"
                                             required />
                                     </div>
                                     <div class="form-group">
+                                        <label for="image">Image</label>
+                                        <input type="file" class="form-control" name="image" value=""
+                                            accept="image/*" />
+                                    </div>
+                                    <div class="form-group">
                                         <label for="description">Description</label>
-                                        <textarea class="form-control" name="description" rows="3"><%= candidat.description %></textarea>
+                                        <textarea class="form-control" name="description"
+                                            rows="3"><%= candidat.description %></textarea>
                                     </div>
                                     <input type="hidden" name="vote_id" value="<%= candidat.vote._id %>" />
                                 </div>
@@ -85,18 +98,42 @@
                                     <button type="submit" class="btn btn-success">Enregistrer</button>
                                     <button type="button" class="btn btn-secondary"
                                         data-dismiss="modal">Annuler</button>
+
+
                                 </div>
                             </div>
                         </form>
+
                 </div>
                 <% } %>
 
-                   
+
             </div>
         </div>
     </section>
     <!-- Modal -->
-
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+        aria-hidden="true" style="color:black;">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <form id="deleteForm">
+                    <div class="modal-header bg-danger text-white">
+                        <h5 class="modal-title" id="deleteModalLabel">Confirmer la suppression</h5>
+                        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Fermer">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p id="modalMessage">Voulez-vous vraiment supprimer ce candidat ?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                        <button type="submit" class="btn btn-danger">Confirmer</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <%- include('./partials/footer') %>
 
@@ -122,7 +159,7 @@
                             notyf.success(response.message);
 
                             setTimeout(function () {
-                                window.location.href = '#'; // Redirection après 1 seconde
+                                location.reload(); // Redirection après 1 seconde
                             }, 1000);
                         },
                         error: function (error) {
@@ -133,6 +170,94 @@
                     });
 
                 });
+                $("#formUpdateCandidat").submit(function (event) {
+                    event.preventDefault();
+
+                    $("#formUpdateCandidat button[type='submit']").prop("disabled", true);
+
+                    // Récupérer les données du formulaire
+                    var formData = new FormData(this);
+                    const candidatId = "<%= candidat._id %>";
+
+                    console.log(formData)
+                    // Envoyer les données via AJAX
+                    $.ajax({
+                        type: "PUT", // ou GET selon votre configuration
+                        url: "/candidat/" + candidatId, // l'url de soumission
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function (response) {
+                            notyf.success(response.message);
+
+                            setTimeout(function () {
+                                location.reload(); // Redirection après 1 seconde
+                            }, 1000);
+                        },
+                        error: function (error) {
+                            console.error("Erreur lors de l'ajout du candidat:", error.responseJSON.message);
+                            notyf.error('Une erreur est survenue !  ' + error.responseJSON.message);
+                            $("#formUpdateCandidat button[type='submit']").prop("disabled", false);
+
+                        }
+                    });
+
+                });
+                $("#deleteForm").submit(function (event) {
+                    event.preventDefault();
+
+                    $("#deleteForm button[type='submit']").prop("disabled", true);
+
+
+                    const candidatId = "<%= candidat._id %>";
+
+                    // Envoyer les données via AJAX
+                    $.ajax({
+                        type: "DELETE", // ou GET selon votre configuration
+                        url: "/candidat/" + candidatId, // l'url de soumission
+
+                        processData: false,
+                        contentType: false,
+                        success: function (response) {
+                            notyf.success(response.message);
+
+                            setTimeout(function () {
+                                window.location.href = '/dashboard'; // Redirection après 1 seconde
+                            }, 1000);
+                        },
+                        error: function (error) {
+                            console.error("Erreur lors de la suppression du candidat:", error.responseJSON.message);
+                            notyf.error('Une erreur est survenue !  ' + error.responseJSON.message);
+                            $("#deleteForm button[type='submit']").prop("disabled", false);
+
+                        }
+                    });
+
+                });
+                $('[id^="voterCandidat"]').on('click', function (event) {
+                        event.preventDefault();
+
+                        const $button = $(this);
+                        const candidatId = $button.attr('id').replace('voterCandidat', '');
+
+                        $button.prop('disabled', true).text('Vote en cours...');
+
+                        $.ajax({
+                            type: "POST",
+                            url: `/voter/${candidatId}`,
+                            data: {}, // Pas besoin de FormData si tu n’envoies rien
+                            success: function (response) {
+                                notyf.success(response.message || "Vote enregistré !");
+                                setTimeout(() => location.reload(), 1000);
+                            },
+                            error: function (error) {
+                                const message = error.responseJSON?.message || "Erreur inconnue";
+                                console.error("Erreur lors du vote :", message);
+                                notyf.error('Une erreur est survenue : ' + message);
+                                $button.prop('disabled', false).text('Voter');
+                            }
+                        });
+                    });
 
             });
         </script>

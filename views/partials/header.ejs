@@ -98,7 +98,7 @@
                         <div class="row no-gutters d-flex align-items-center">
                             <div class="col-lg-2 col-md-2 col-sm-3">
                                 <div class="logo-area">
-                                    <a href="index.html" class="img-fluid">
+                                    <a href="/" class="img-fluid">
                                         <img src="../public/img/VOTIFY.png" class="imglogo" alt="logo">
                                     </a>
                                 </div>
@@ -112,14 +112,14 @@
                                             </li>
 
                                             <li>
-                                                <a href="#">FAQ</a>
+                                                <a href="/">FAQ</a>
                                             </li>
 
                                             <li><a href="/">Contact</a></li>
 
                                             <% if(typeof user !=='undefined' && user) { %>
-                                                <li onclick="logout();">
-                                                    <a> Déconnexion</a>
+                                                <li>
+                                                    <a href="/dashboard"> Compte</a>
                                                 </li>
                                                 <% } else { %>
                                                     <li>
@@ -303,5 +303,40 @@
                             // Gérer les erreurs ici
                         });
                 });
+            });
+        </script>
+         <script>
+            $(document).ready(() => {
+                var notyf = new Notyf();
+                // Initialisation de Notyf
+                $("#formVote").submit(function (event) {
+                    event.preventDefault();
+
+
+                    // Récupérer les données du formulaire
+                    var formData = new FormData(this);
+                    console.log(formData)
+                    // Envoyer les données via AJAX
+                    $.ajax({
+                        type: "POST", // ou GET selon votre configuration
+                        url: "/vote/add", // l'url de soumission
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function (response) {
+                            notyf.success(response.message);
+
+                            setTimeout(function () {
+                                window.location.href = '/dashboard'; // Redirection après 1 seconde
+                            }, 1000);
+                        },
+                        error: function () {
+                            notyf.error('Erreur lors de l\'ajout du vote');
+
+                        }
+                    });
+
+                });
+               
             });
         </script>

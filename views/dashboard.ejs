@@ -141,13 +141,13 @@
                                         <div id="category-view"
                                             class="category-grid-layout3 gradient-padding zoom-gallery">
                                             <div class="row">
-                                                <% votes.forEach(vote => { %>
-                                                    <div class="col-lg-4 col-md-4 col-sm-6 col-12">
+                                                <% user.votes.forEach(vote => { %>
+                                                    <div class="col-lg-6 col-md-4 col-sm-6 col-12">
                                                         <div class="product-box item-mb zoom-gallery">
                                                             <div class="item-mask-wrapper">
                                                             <div class="item-mask secondary-bg-box"><img
                                                                     src="public/uploads/images-votes/<%= vote.image %>"
-                                                                    alt="categories" class="img-fluid">
+                                                                    alt="categories" style="max-width: 100%;height: 300px; object-fit: cover; " class="img-fluid">
                                                                 <div class="trending-sign active" data-tips="Featured">
                                                                     <i class="fa fa-bolt" aria-hidden="true"></i> </div>
                                                                 <div class="title-ctg"><%= vote.title %></div>
@@ -219,41 +219,7 @@
 
     <%- include('./partials/footer') %>
 
-        <script>
-            $(document).ready(() => {
-                var notyf = new Notyf();
-                // Initialisation de Notyf
-                $("#formVote").submit(function (event) {
-                    event.preventDefault();
-
-
-                    // Récupérer les données du formulaire
-                    var formData = new FormData(this);
-                    console.log(formData)
-                    // Envoyer les données via AJAX
-                    $.ajax({
-                        type: "POST", // ou GET selon votre configuration
-                        url: "/vote/add", // l'url de soumission
-                        data: formData,
-                        processData: false,
-                        contentType: false,
-                        success: function (response) {
-                            notyf.success(response.message);
-
-                            setTimeout(function () {
-                                window.location.href = '#'; // Redirection après 1 seconde
-                            }, 1000);
-                        },
-                        error: function () {
-                            notyf.error('Erreur lors de l\'ajout du vote');
-
-                        }
-                    });
-
-                });
-               
-            });
-        </script>
+       
 
         </body>
 

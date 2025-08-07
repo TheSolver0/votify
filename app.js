@@ -20,6 +20,7 @@ const userController = require('./controllers/userController');
 const voteController = require('./controllers/VoteController');
 const candidatController = require('./controllers/CandidatController');
 const config = require('./config');
+const methodOverride = require('method-override');
 
 const SECRET = 'Akqdosfkdkxlfd7f1d51f85dd1515205ssJNIKq51sfjnkdnvskjdfnkln';
 const AUTH = ejwt({secret: SECRET, algorithms: ["HS256"]});
@@ -105,7 +106,7 @@ const authenticateToken = (req, res, next) => {
     });
 };
 function attachUserIfAuthenticated(req, res, next) {
-    const token = req.headers.cookie.split('token=')[1];
+    const token = req.headers.cookie?.split('token=')[1];
     console.log('Token:', token);
   // const token = req.cookies.token || req.headers.authorization?.split(' ')[1];
   if (!token) return next(); // Aucun token => continuer sans req.user
@@ -121,7 +122,15 @@ function attachUserIfAuthenticated(req, res, next) {
 }
 
 
-app.use('/public', express.static('public'))
+app.use('/public', express.static('public'));
+app.use(express.urlencoded({ extended: true }));
+app.use(methodOverride('_method'));
+app.use((req, res, next) => {
+  console.log('Requête reçue :', req.method, req.url);
+  next();
+});
+
+
 // app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 
 
@@ -167,7 +176,7 @@ app.post('/vote/add',voteUpload.single('image'),authenticateToken, voteControlle
 app.get('/vote-details/:id',attachUserIfAuthenticated, voteController.getVoteDetails);
 // app.get('/vote-details/:id',authenticateToken, voteController.getVoteDetails);
 
-app.put('/vote/:id', authenticateToken, upload.fields([]), voteController.updateVote);
+app.put('/vote/:id', authenticateToken, voteUpload.single('image'), voteController.updateVote);
 
 app.delete('/vote/:id', voteController.deleteVote);
 //----------------------------------------------------
@@ -187,6 +196,8 @@ app.get('/candidat-details/:id',attachUserIfAuthenticated, candidatController.ge
 app.put('/candidat/:id', authenticateToken, upload.fields([]), candidatController.updateCandidat);
 
 app.delete('/candidat/:id', candidatController.deleteCandidat);
+
+app.post('/voter/:id', candidatController.voteCandidat);
 
 //---------------------------------------------------------
 
