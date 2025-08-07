@@ -20,6 +20,7 @@ const VoteSchema = mongoose.Schema({
         type: Number,
         default: 0
     },
+    
     vote: { type: mongoose.Schema.Types.ObjectId, ref: 'Vote', required: true }, // Référence à l'utilisateur
 
 

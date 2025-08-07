@@ -67,9 +67,15 @@
 
                                             <li><a href="classipost/contact.html">Contact</a></li>
 
-                                            <li>
-                                                <a href="/login">Connexion</a>
-                                            </li>
+                                            <% if(typeof user !=='undefined' && user) { %>
+                                                <li>
+                                                    <a href="/dashboard"> Compte</a>
+                                                </li>
+                                                <% } else { %>
+                                                    <li>
+                                                        <a href="/login"> Connexion</a>
+                                                    </li>
+                                                    <% } %>
                                             <!-- <a href="#" class="buy-btn">Connexion</a> -->
                                              <!-- <button id="darkModeToggle">Dark/Light</button> -->
                                         </ul>
@@ -89,17 +95,23 @@
                                 <nav id="dropdown">
                                     <ul>
                                         <li>
-                                            <a href="#">Accueil</a>
+                                            <a href="/">Accueil</a>
                                         </li>
 
                                         <li>
-                                            <a href="#">FAQ</a>
+                                            <a href="/">FAQ</a>
                                         </li>
 
-                                        <li><a href="classipost/contact.html">Contact</a></li>
-                                        <li>
-                                            <a href="#">Connexion</a>
-                                        </li>
+                                        <li><a href="/">Contact</a></li>
+                                       <% if(typeof user !=='undefined' && user) { %>
+                                                <li>
+                                                    <a href="/dashboard"> Compte</a>
+                                                </li>
+                                                <% } else { %>
+                                                    <li>
+                                                        <a href="/login"> Connexion</a>
+                                                    </li>
+                                                    <% } %>
                                         <!-- <a href="#" class="buy-btn">Commencer Maintenant</a> -->
                                     </ul>
                                 </nav>

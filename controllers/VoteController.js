@@ -4,9 +4,9 @@ const User = require('../models/User');
 exports.getVotes = async () => {
   try {
     const votes = await Vote.find({})
+      .sort({ createdAt: -1 })
       .populate('author')
-      .populate('candidats')
-      .sort({ _id: -1 });
+      .populate('candidats') ;
     return votes;
   } catch (err) {
     console.error('Erreur dans getVotes:', err);

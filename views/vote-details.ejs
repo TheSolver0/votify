@@ -1,7 +1,7 @@
 <%- include('./partials/header') %>
 
 
-    <section class="s-space-bottom-full bg-accent-shadow-body" style="margin-top: 100px;">
+    <section class="s-space-bottom-full bg-accent-shadow-body bg-body full-width-border-bottom fixed-menu-mt">
         <div class="container">
             <div class="breadcrumbs-area">
                 <ul>
@@ -16,26 +16,22 @@
                 <div class="col-xl-9 col-lg-8 col-md-12 col-sm-12 col-12">
                     <div class="gradient-wrapper item-mb">
 
-                        <div class="gradient-title"
-                            style="display: flex; justify-content: space-between; align-items: center;">
+                        <div class="gradient-title" style="display: flex; justify-content: space-between; align-items: center;">
                             <h2>
                                 <%= vote.title %>
                             </h2>
                             <h2>
-                                <% if (typeof user !=='undefined' && user &&
-                                    user._id.toString()===vote.author._id.toString()) { %>
-                                    <!-- Bouton pour ouvrir le modal -->
-                                    <button class="btn btn-light" data-toggle="modal" style="cursor: pointer;"
-                                        data-target="#updateVoteModal">
+                                <% if (typeof user !=='undefined' && user && user._id.toString()===vote.author._id.toString()) { %>
+                                    <button class="btn btn-light" data-toggle="modal" style="cursor: pointer;" data-target="#updateVoteModal">
                                         <i class="fa fa-pencil">&nbsp;Modifier le vote</i>
                                     </button>
-                                    <!-- <button class="btn btn-danger" data-toggle="modal" style="cursor: pointer;" data-target="#deleteVoteModal"> -->
-                                    <button class="btn btn-danger delete-btn" data-toggle="modal"
-                                        data-target="#deleteModal" style="cursor: pointer;">
+                                    <button class="btn btn-danger delete-btn" data-toggle="modal" data-target="#deleteModal" style="cursor: pointer;">
                                         <i class="fa fa-trash">&nbsp;Supprimer le vote</i>
                                     </button>
+                                    <button class="btn btn-secondary" onclick="partagerLien('<%= vote._id %>')" style="cursor: pointer;">
+                                        <i class="fa fa-share"> Partager</i>
+                                    </button>
                                     <% } %>
-                                        <!-- <i class="fa fa-pencil">Modifier</i></h2> -->
                         </div>
 
                         <div class="gradient-padding reduce-padding">
@@ -45,7 +41,8 @@
                                         <div class="tab-content">
                                             <img alt="img-vote" src="../public/uploads/images-votes/<%= vote.image %>"
                                                 class="" style="width: 100%; max-height: 650px; object-fit: cover;"></a>
-                                            <span class="price" style="background-color:#FDB001; padding: 10px;; box-shadow: 2px 2px 5px rgba(0,0,0,0.5);">
+                                            <span class="price"
+                                                style="background-color:#FDB001; padding: 10px;; box-shadow: 2px 2px 5px rgba(0,0,0,0.5);">
                                                 <%= totalVotes %> votes
                                             </span>
 
@@ -112,8 +109,9 @@
                                                         <li><a href="/candidat-details/<%= candidat._id %>"><i
                                                                     class="fa fa-link" aria-hidden="true"></i></a></li>
                                                     </ul>
-                                                    <div class="symbol-featured"><img src="..public/img/banner/symbol-featured.png"
-                                                    alt="symbol" class="img-fluid"> voter </div>  
+                                                    <div class="symbol-featured"><img
+                                                            src="..public/img/banner/symbol-featured.png" alt="symbol"
+                                                            class="img-fluid"> voter </div>
                                                 </div>
                                             </div>
                                             <div class="item-content">
@@ -130,9 +128,8 @@
                                                 <div class="price">
                                                     <%= candidat.nbvote %> votes
                                                 </div>
-                                                 <button class="btn btn-primary"
-                                                                id="voterCandidat<%= candidat._id %>"
-                                                                style="cursor: pointer;">Voter</button>
+                                                <button class="btn btn-primary" id="voterCandidat<%= candidat._id %>"
+                                                    style="cursor: pointer;">Voter</button>
                                                 <a href="/candidat-details/<%= candidat._id %>" class="btn btn-warning"
                                                     target="_blank" style="cursor: pointer;">Voir plus</a>
                                             </div>
@@ -148,7 +145,8 @@
                                                                     alt="categories" class="img-fluid "
                                                                     style="height: 500px; width: 100%; object-fit: cover;">
                                                                 <div class="trending-sign active" data-tips="Featured">
-                                                                    <i class="fa fa-bolt" aria-hidden="true"></i> </div>
+                                                                    <i class="fa fa-bolt" aria-hidden="true"></i>
+                                                                </div>
                                                                 <div class="title-ctg">Voter Pour : <%= candidat.name %>
                                                                 </div>
                                                                 <ul class="info-link">
@@ -161,7 +159,7 @@
                                                                                 class="fa fa-link"
                                                                                 aria-hidden="true"></i></a></li>
                                                                 </ul>
-                                                                
+
                                                             </div>
                                                         </div>
                                                         <div class="item-content">
@@ -171,7 +169,7 @@
                                                                     <%= candidat.name %>
                                                                 </a></h3>
                                                             <h3 class="long-title"><a href="">Voter <%= candidat.name %>
-                                                                        </a></h3>
+                                                                </a></h3>
 
                                                             <p>
                                                                 <%= candidat.description %>
@@ -243,7 +241,6 @@
             </div>
         </div>
     </section>
-    <!-- Modal -->
     <div class="modal fade" id="addCandidatModal" style="color:black;" tabindex="-1" role="dialog"
         aria-labelledby="addCandidatLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -280,7 +277,6 @@
         </div>
     </div>
 
-    <!-- --------------------------------------- -->
 
     <div class="modal fade" id="updateVoteModal" style="color:black;" tabindex="-1" role="dialog"
         aria-labelledby="addCandidatLabel" aria-hidden="true">
@@ -342,6 +338,23 @@
         <%- include('./partials/footer') %>
 
             <script>
+                function partagerLien(voteId) {
+                        const url = `${window.location.origin}/vote/${voteId}`;
+
+                        // Si l'API de partage est disponible (mobile, certains navigateurs)
+                        if (navigator.share) {
+                            navigator.share({
+                                title: 'Vote pour le candidat',
+                                text: 'Viens voter pour ce candidat !',
+                                url: url
+                            }).catch((error) => console.error('Erreur de partage :', error));
+                        } else {
+                            // Sinon, copier dans le presse-papiers
+                            navigator.clipboard.writeText(url)
+                                .then(() => alert('Lien copié dans le presse-papiers !'))
+                                .catch(err => console.error('Erreur de copie :', err));
+                        }
+                    }
                 $(document).ready(() => {
                     var notyf = new Notyf();
                     // Initialisation de Notyf
@@ -462,7 +475,7 @@
                             }
                         });
                     });
-
+                    
 
                 });
             </script>

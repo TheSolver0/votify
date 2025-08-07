@@ -1,7 +1,7 @@
 <%- include('./partials/header') %>
 
 
-    <section class="s-space-bottom-full bg-accent-shadow-body" style="margin-top: 100px;">
+    <section class="s-space-bottom-full bg-accent-shadow-body bg-body full-width-border-bottom fixed-menu-mt">
         <div class="container">
             <div class="breadcrumbs-area">
                 <ul>
@@ -49,10 +49,14 @@
                             <button class="btn btn-primary" id="voterCandidat<%= candidat._id %>"
                                 style="cursor: pointer;">Voter</button>
 
+                            <button class="btn btn-secondary" onclick="partagerLien('<%= candidat._id %>')"
+                                style="cursor: pointer;">
+                                <i class="fa fa-share"> Partager</i>
+                            </button>
+
                         </div>
                     </div>
-                    <% if (typeof user !=='undefined' && user && candidat && candidat.vote && candidat.vote.author
-                        &&user._id.toString()===candidat.vote.author._id.toString()) { %>
+                    <% if (typeof user !=='undefined' && user && candidat && candidat.vote && candidat.vote.author &&user._id.toString()===candidat.vote.author._id.toString()) { %>
                         <div class="gradient-wrapper item-mb">
                             <div class="gradient-title"
                                 style="display: flex; justify-content: space-between; align-items: center;">
@@ -111,7 +115,6 @@
             </div>
         </div>
     </section>
-    <!-- Modal -->
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
         aria-hidden="true" style="color:black;">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -138,6 +141,23 @@
     <%- include('./partials/footer') %>
 
         <script>
+            function partagerLien(candidatId) {
+                    const url = `${window.location.origin}/vote/candidat/${candidatId}`;
+
+                    // Si l'API de partage est disponible (mobile, certains navigateurs)
+                    if (navigator.share) {
+                        navigator.share({
+                            title: 'Vote pour le candidat',
+                            text: 'Viens voter pour ce candidat !',
+                            url: url
+                        }).catch((error) => console.error('Erreur de partage :', error));
+                    } else {
+                        // Sinon, copier dans le presse-papiers
+                        navigator.clipboard.writeText(url)
+                            .then(() => alert('Lien copié dans le presse-papiers !'))
+                            .catch(err => console.error('Erreur de copie :', err));
+                    }
+                }
             $(document).ready(() => {
                 var notyf = new Notyf();
                 // Initialisation de Notyf
@@ -235,29 +255,31 @@
 
                 });
                 $('[id^="voterCandidat"]').on('click', function (event) {
-                        event.preventDefault();
+                    event.preventDefault();
 
-                        const $button = $(this);
-                        const candidatId = $button.attr('id').replace('voterCandidat', '');
+                    const $button = $(this);
+                    const candidatId = $button.attr('id').replace('voterCandidat', '');
 
-                        $button.prop('disabled', true).text('Vote en cours...');
+                    $button.prop('disabled', true).text('Vote en cours...');
 
-                        $.ajax({
-                            type: "POST",
-                            url: `/voter/${candidatId}`,
-                            data: {}, // Pas besoin de FormData si tu n’envoies rien
-                            success: function (response) {
-                                notyf.success(response.message || "Vote enregistré !");
-                                setTimeout(() => location.reload(), 1000);
-                            },
-                            error: function (error) {
-                                const message = error.responseJSON?.message || "Erreur inconnue";
-                                console.error("Erreur lors du vote :", message);
-                                notyf.error('Une erreur est survenue : ' + message);
-                                $button.prop('disabled', false).text('Voter');
-                            }
-                        });
+                    $.ajax({
+                        type: "POST",
+                        url: `/voter/${candidatId}`,
+                        data: {}, // Pas besoin de FormData si tu n’envoies rien
+                        success: function (response) {
+                            notyf.success(response.message || "Vote enregistré !");
+                            setTimeout(() => location.reload(), 1000);
+                        },
+                        error: function (error) {
+                            const message = error.responseJSON?.message || "Erreur inconnue";
+                            console.error("Erreur lors du vote :", message);
+                            notyf.error('Une erreur est survenue : ' + message);
+                            $button.prop('disabled', false).text('Voter');
+                        }
                     });
+                });
+                
+
 
             });
         </script>

@@ -153,7 +153,7 @@
     /*-------------------------------------
     // jQuery MeanMenu activation code
      --------------------------------------*/
-    $('nav#dropdown').meanmenu({siteLogo: "<div class='mobile-menu-nav-back'><a href='index.html' class='logo-mobile'><img src='img/logo.png' /></a></div>"});
+    $('nav#dropdown').meanmenu({siteLogo: "<div class='mobile-menu-nav-back'><a href='index.html' class='logo-mobile'><img src='public/img/VOTIFY.png' style='max-width: 16%; height: auto;' /></a></div>"});
   
     /*-------------------------------------
     // jquery zoom activation code

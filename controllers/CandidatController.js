@@ -7,7 +7,7 @@ exports.getCandidats = (req, res) => {
 
     Candidat.find({})
         // .populate('author')
-        .sort({ _id: -1 })
+        .sort({ nbvote: -1, createdAt: -1 }) // Tri par date de création décroissante et par nombre de votes décroissant
         .then(candidats => {
             res.render('candidats', { candidats });
         })
